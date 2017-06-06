@@ -61,3 +61,4 @@ target/
 gradlew.bat
 
 terraform.tf*
+*.tfvars
