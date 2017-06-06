@@ -21,7 +21,7 @@ base:
     - butler.tracker
     - butler.deploy.example-workflows
     - cwltool
-    - docker    
+    - docker
   'G@roles:tracker':
     - git
     - run-tracking-db.set_db_url
@@ -52,14 +52,4 @@ base:
   'G@roles:butler-web':
     - git
     - nginx
-    - butler.web   
-
-
-  
-    
-  
-    
-    
-
-
-    
+    - butler.web
