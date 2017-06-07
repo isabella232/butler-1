@@ -29,6 +29,8 @@ run_tablespace:
      - owner: {{ pillar['postgres.user'] }}
      - directory: /data/run_tracking/db
      - user: postgres
+     - db_user: postgres
+     - maintenance_db: postgres
 
 butler_indexspace:
   postgres_tablespace.present:
@@ -36,6 +38,8 @@ butler_indexspace:
      - owner: {{ pillar['postgres.user'] }}
      - directory: /data/run_tracking/indexes
      - user: postgres
+     - db_user: postgres
+     - maintenance_db: postgres
 
 run_tracking_db:
   postgres_database.present:
@@ -43,4 +47,6 @@ run_tracking_db:
     - owner: {{ pillar['postgres.user'] }}
     - tablespace: run_dbspace
     - user: postgres
+    - db_user: postgres
+    - maintenance_db: postgres
     
