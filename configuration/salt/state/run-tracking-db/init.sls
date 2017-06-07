@@ -5,10 +5,7 @@ butler_admin_user:
     - superuser: True
     - password: {{ pillar['postgres.password'] }}
     - user: postgres
-<<<<<<< HEAD
     - db_host: localhost
-=======
->>>>>>> use default db before run-tracking exists
     - db_user: postgres
     - maintenance_db: postgres
 
@@ -46,6 +43,7 @@ butler_indexspace:
     - db_host: localhost
     - db_user: postgres
     - maintenance_db: postgres
+
 
 run_tracking_db:
   postgres_database.present:
