@@ -5,25 +5,28 @@ butler_admin_user:
     - superuser: True
     - password: {{ pillar['postgres.password'] }}
     - user: postgres
+<<<<<<< HEAD
     - db_host: localhost
+=======
+>>>>>>> use default db before run-tracking exists
     - db_user: postgres
     - maintenance_db: postgres
 
-    
+
 /data/run_tracking/db:
   file.directory:
     - user: postgres
     - group: postgres
     - mode: 744
     - makedirs: True
-    
+
 /data/run_tracking/indexes:
   file.directory:
     - user: postgres
     - group: postgres
     - mode: 744
     - makedirs: True
-    
+
 run_tablespace:
   postgres_tablespace.present:
     - name: run_dbspace
@@ -53,4 +56,3 @@ run_tracking_db:
     - db_host: localhost
     - db_user: postgres
     - maintenance_db: postgres
-    
