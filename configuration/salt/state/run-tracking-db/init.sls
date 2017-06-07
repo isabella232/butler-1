@@ -43,7 +43,7 @@ butler_indexspace:
 
 run_tracking_db:
   postgres_database.present:
-    - name: pillar['run_tracking_db_name']
+    - name: {{ pillar['run_tracking_db_name'] }}
     - owner: {{ pillar['postgres.user'] }}
     - tablespace: run_dbspace
     - user: postgres
