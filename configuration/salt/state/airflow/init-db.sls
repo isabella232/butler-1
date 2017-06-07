@@ -4,3 +4,4 @@ initialize_database:
     - env:
       - AIRFLOW_CONFIG: '/etc/opt/airflow/airflow.cfg'
       - AIRFLOW_HOME: '/opt/airflow/'
+    - runas: centos
