@@ -5,6 +5,8 @@ butler_admin_user:
     - superuser: True
     - password: {{ pillar['postgres.password'] }}
     - user: postgres
+    - db_user: postgres
+    - maintenance_db: postgres
 
     
 /data/run_tracking/db:
