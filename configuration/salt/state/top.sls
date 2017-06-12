@@ -13,7 +13,7 @@ base:
     - consul.join-all
   'G@roles:consul-client':
     - consul.client
-    - consul.join-all
+    - consul.join-server
   'G@roles:monitoring-server':
     - influxdb
     - grafana 
