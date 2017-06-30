@@ -1,1 +1,1 @@
-dnsmasq.server = salt['cmd.run']('echo $EMSERVER')
+dnsmasq.server: salt['cmd.run']('echo $EMSERVER')
