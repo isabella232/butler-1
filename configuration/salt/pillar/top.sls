@@ -4,7 +4,8 @@ base:
     - collectd
     - postgres
     - rabbitmq
-    - influxdb   
+    - influxdb 
+    - dnsmasq
   'G@roles:worker':
     - test-data
     - run-tracking-db
