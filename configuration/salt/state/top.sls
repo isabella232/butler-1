@@ -5,9 +5,20 @@ base:
     - elastic.filebeat
     - elastic.packetbeat
     - ntp
+<<<<<<< HEAD
     - telegraf
   'G@roles:consul-ui':
     - consul.ui
+=======
+  'G@roles:consul-bootstrap':
+    - consul.bootstrap
+  'G@roles:consul-server':
+    - consul.server
+    - consul.join-all
+  'G@roles:consul-client':
+    - consul.client
+    - consul.join-server
+>>>>>>> 5c172e2d281b8215140f2ce557d23bc425362d4f
   'G@roles:monitoring-server':
     - influxdb
     - grafana

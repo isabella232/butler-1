@@ -4,7 +4,7 @@ base:
     - collectd
     - postgres
     - rabbitmq
-    - influxdb 
+    - influxdb
     - dnsmasq
   'G@roles:worker':
     - test-data
@@ -21,4 +21,3 @@ base:
     - run-tracking-db
   'G@roles:butler-web':
     - butler
-

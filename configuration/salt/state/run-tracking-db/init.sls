@@ -9,7 +9,6 @@ butler_admin_user:
     - db_user: postgres
     - maintenance_db: postgres
 
-
 /data/run_tracking/db:
   file.directory:
     - user: postgres
@@ -43,7 +42,6 @@ butler_indexspace:
     - db_host: localhost
     - db_user: postgres
     - maintenance_db: postgres
-
 
 run_tracking_db:
   postgres_database.present:
