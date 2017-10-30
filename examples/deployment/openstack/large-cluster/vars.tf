@@ -49,13 +49,6 @@ variable "main_network_id" {
 	default= ""
 }
 
-variable "pan_prostate_network_id" {
-	default="eb60b9be-0d31-41f0-b5d3-f6546cb13a67"
-}
-variable "gnos_network_id" {
-	default="ee244fc2-9540-4523-a642-53d1fad0fb53"
-}
-
 variable "floatingip_pool" {
 	default = "ext-net"
 }
