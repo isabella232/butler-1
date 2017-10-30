@@ -3,4 +3,4 @@
 install_dependencies:
   pkg.installed:
     - name: java
-    - name: python-pip
+    - name: python2-pip
