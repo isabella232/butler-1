@@ -34,6 +34,10 @@ variable "key_file" {
 
 }
 
+variable "main_network_uuid" {
+	default = ""
+}
+
 variable "main_network_name" {
 	default = ""
 }
