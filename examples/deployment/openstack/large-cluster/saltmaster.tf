@@ -1,7 +1,7 @@
 resource "openstack_compute_instance_v2" "salt-master" {
   image_id        = "${var.image_id}"
-  flavor_name     = "${var.salt-master-flavor}"
-  security_groups = ["${openstack_compute_secgroup_v2.allow-traffic.name}", "${var.main-security-group-id}"]
+  flavor_name     = "${var.salt_master_flavor}"
+  security_groups = ["${openstack_compute_secgroup_v2.allow-traffic.name}", "${var.main_security_group_name }"]
   name            = "butler-salt-master"
 
   network = {
@@ -55,8 +55,8 @@ resource "openstack_compute_instance_v2" "salt-master" {
       "sudo mv /home/centos/master /etc/salt/master",
       "sudo service salt-master start",
       "sudo hostname salt-master",
+      #     "sudo semodule -i collectdlocal.pp",
     ]
 
-    #     "sudo semodule -i collectdlocal.pp",
   }
 }

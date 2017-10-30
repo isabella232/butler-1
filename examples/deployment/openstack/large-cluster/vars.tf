@@ -47,26 +47,26 @@ variable "worker_count" {
   default = "1"
 }
 
-variable "salt-master-flavor" {
+variable "salt_master_flavor" {
   default = "s1.massive"
 }
 
-variable "worker-flavor" {
+variable "worker_flavor" {
   default = "s1.massive"
 }
 
-variable "db-server-flavor" {
+variable "db_server_flavor" {
   default = "s1.massive"
 }
 
-variable "job-queue-flavor" {
+variable "job_queue_flavor" {
   default = "s1.massive"
 }
 
-variable "tracker-flavor" {
+variable "tracker_flavor" {
   default = "s1.massive"
 }
 
-variable "main-security-group-id" {
+variable "main_security_group_name " {
   default = ""
 }

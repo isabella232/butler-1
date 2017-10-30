@@ -2,8 +2,8 @@ resource "openstack_compute_instance_v2" "worker" {
   depends_on = ["openstack_compute_instance_v2.salt-master"]
 
   image_id        = "${var.image_id}"
-  flavor_name     = "${var.worker-flavor}"
-  security_groups = ["${openstack_compute_secgroup_v2.allow-traffic.name}", "${var.main-security-group-id}"]
+  flavor_name     = "${var.worker_flavor}"
+  security_groups = ["${openstack_compute_secgroup_v2.allow-traffic.name}", "${var.main_security_group_name }"]
   name            = "butler-worker-${count.index}"
 
   network = {
