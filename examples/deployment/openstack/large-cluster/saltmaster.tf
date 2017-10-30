@@ -13,19 +13,22 @@ resource "openstack_compute_instance_v2" "salt-master" {
 	 	bastion_private_key = "${file(var.bastion_key_file)}"
 	 	bastion_host = "${var.bastion_host}"
 	 	bastion_user = "${var.bastion_user}"
-	 	
+
 	}
 	key_pair = "${var.key_pair}"
-  	
-	 	
+
+
 	provisioner "file" {
         	source = "./master"
         	destination = "/home/centos/master"
     	}
+
+/*
 	provisioner "file" {
         	source = "./collectdlocal.pp"
         	destination = "/home/centos/collectdlocal.pp"
     	}
+/*
 	provisioner "file" {
 	  source = "salt_setup.sh"
 	  destination = "/tmp/salt_setup.sh"
@@ -45,10 +48,10 @@ resource "openstack_compute_instance_v2" "salt-master" {
 		     "sudo pip install tornado -y",
 		     "sudo yum install GitPython -y",
 		     "sudo service salt-master stop",
-		     "sudo mv /home/centos/master /etc/salt/master",       
+		     "sudo mv /home/centos/master /etc/salt/master",
 		     "sudo service salt-master start",
 		     "sudo hostname salt-master",
-		     "sudo semodule -i collectdlocal.pp",
+		 /*    "sudo semodule -i collectdlocal.pp", */
 	  ]
         }
 }
