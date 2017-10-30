@@ -1,4 +1,3 @@
-
 resource "openstack_compute_secgroup_v2" "allow-traffic" {
   name        = "butler-firewall"
   description = "Allow traffic across butler instances"
@@ -26,11 +25,8 @@ resource "openstack_compute_secgroup_v2" "allow-traffic" {
 
   rule {
     ip_protocol = "tcp"
-    from_port   = 3000 
+    from_port   = 3000
     to_port     = 3000
     cidr        = "0.0.0.0/0"
   }
-  
-  
-
 }
