@@ -6,8 +6,9 @@ resource "openstack_compute_instance_v2" "tracker" {
 	flavor_name = "${var.tracker-flavor}"
 	security_groups = ["${openstack_compute_secgroup_v2.allow-traffic.name}", "${var.main-security-group-id}"]
 	name = "butler-tracker"
-	network = {
-		uuid = "${var.main_network_id}"
+  network = {
+    uuid = "${var.main_network_uuid}"
+		name = "${var.main_network_name}"
 	}
 	connection {
 		user = "${var.user}"
@@ -16,7 +17,7 @@ resource "openstack_compute_instance_v2" "tracker" {
 	 	bastion_host = "${var.bastion_host}"
 	 	bastion_user = "${var.bastion_user}"
 	 	agent = true
-	 	
+
 	}
 	key_pair = "${var.key_pair}"
 
@@ -31,4 +32,3 @@ resource "openstack_compute_instance_v2" "tracker" {
 	  ]
 	}
 }
-

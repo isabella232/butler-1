@@ -3,8 +3,9 @@ resource "openstack_compute_instance_v2" "salt-master" {
 	flavor_name = "${var.salt-master-flavor}"
 	security_groups = ["${openstack_compute_secgroup_v2.allow-traffic.name}", "${var.main-security-group-id}"]
 	name = "butler-salt-master"
-	network = {
-		uuid = "${var.main_network_id}"
+  network = {
+    uuid = "${var.main_network_uuid}"
+		name = "${var.main_network_name}"
 	}
 	connection {
 		user = "${var.user}"

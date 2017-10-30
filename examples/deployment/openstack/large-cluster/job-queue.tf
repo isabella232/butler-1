@@ -1,5 +1,5 @@
 resource "openstack_compute_instance_v2" "job-queue" {
- 
+
     depends_on = ["openstack_compute_instance_v2.salt-master"]
 
   	image_id = "${var.image_id}"
@@ -7,7 +7,8 @@ resource "openstack_compute_instance_v2" "job-queue" {
 	security_groups = ["${openstack_compute_secgroup_v2.allow-traffic.name}", "${var.main-security-group-id}"]
 	name = "butler-job-queue"
 	network = {
-		name = "${var.network_name}"
+    uuid = "${var.main_network_uuid}"
+		name = "${var.main_network_name}"
 	}
 	connection {
 		user = "${var.user}"
@@ -16,7 +17,7 @@ resource "openstack_compute_instance_v2" "job-queue" {
 	 	bastion_host = "${var.bastion_host}"
 	 	bastion_user = "${var.bastion_user}"
 	 	agent = true
-	 	
+
 	}
 	key_pair = "${var.key_pair}"
 
@@ -31,4 +32,3 @@ resource "openstack_compute_instance_v2" "job-queue" {
 	  ]
 	}
 }
-

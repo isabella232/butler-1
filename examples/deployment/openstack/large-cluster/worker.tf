@@ -6,8 +6,9 @@ resource "openstack_compute_instance_v2" "worker" {
 	flavor_name = "${var.worker-flavor}"
 	security_groups = ["${openstack_compute_secgroup_v2.allow-traffic.name}", "${var.main-security-group-id}"]
 	name = "butler-worker-${count.index}"
-	network = {
-		uuid = "${var.main_network_id}"
+  network = {
+    uuid = "${var.main_network_uuid}"
+		name = "${var.main_network_name}"
 	}
 	connection {
 		user = "${var.user}"
@@ -32,4 +33,3 @@ resource "openstack_compute_instance_v2" "worker" {
 	  ]
 	}
 }
-
