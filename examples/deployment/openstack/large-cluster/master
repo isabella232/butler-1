@@ -11,9 +11,10 @@ fileserver_backend:
 
 file_roots:
   base:
-     - /srv/salt/base
+    - /srv/salt/base
 
 gitfs_provider: gitpython
+gitfs_base: otc
 gitfs_remotes:
   - git://github.com/EMBL-EBI-TSI/butler:
     - root: configuration/salt/state
