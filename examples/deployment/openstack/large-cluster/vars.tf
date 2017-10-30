@@ -1,5 +1,4 @@
-
-variable "user_name" {
+/* variable "user_name" {
 	default="CHANGE_ME"
 }
 variable "password" {
@@ -9,28 +8,22 @@ variable "tenant_name" {
 	default="Pan-Prostate"
 }
 variable "auth_url" {
-
 }
+/*
 
 variable "key_pair" {
-	default="sergei"
 }
 
-
 variable "bastion_key_file" {
-
 }
 
 variable "bastion_host" {
-
 }
 
 variable "bastion_user" {
-	default = "iakhnin"
 }
 
 variable "image_id" {
-	default = "7457dc57-9765-4293-ab1b-8e03d748485f"
 }
 
 variable "user" {
@@ -46,7 +39,7 @@ variable "main_network_name" {
 }
 
 variable "main_network_id" {
-	default= ""
+	default = ""
 }
 
 variable "floatingip_pool" {
@@ -78,5 +71,5 @@ variable "tracker-flavor" {
 }
 
 variable "main-security-group-id" {
-	default="Pan-Prostate-Internal"
+	default=	""
 }
