@@ -29,7 +29,7 @@ resource "openstack_compute_instance_v2" "salt-master" {
         	source = "./collectdlocal.pp"
         	destination = "/home/centos/collectdlocal.pp"
     	}
-/*
+*/
 	provisioner "file" {
 	  source = "salt_setup.sh"
 	  destination = "/tmp/salt_setup.sh"
@@ -52,7 +52,7 @@ resource "openstack_compute_instance_v2" "salt-master" {
 		     "sudo mv /home/centos/master /etc/salt/master",
 		     "sudo service salt-master start",
 		     "sudo hostname salt-master",
-		 /*    "sudo semodule -i collectdlocal.pp", */
+		#     "sudo semodule -i collectdlocal.pp",
 	  ]
         }
 }

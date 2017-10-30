@@ -9,7 +9,7 @@ variable "tenant_name" {
 }
 variable "auth_url" {
 }
-/*
+*/
 
 variable "key_pair" {
 }
