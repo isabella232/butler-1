@@ -67,6 +67,6 @@ variable "tracker_flavor" {
   default = "s1.massive"
 }
 
-variable "main_security_group_name " {
+variable "main_security_group_name" {
   default = ""
 }
