@@ -6,6 +6,7 @@ base:
     - elastic.packetbeat
     - ntp
     - telegraf
+    - something-else
   'G@roles:consul-ui':
     - consul.ui
   'G@roles:monitoring-server':
