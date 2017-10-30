@@ -33,6 +33,3 @@ ext_pillar:
     - otc git://github.com/EMBL-EBI-TSI/butler:
       - root: configuration/salt/pillar
       - env: base
-    - otc git://github.com/EMBL-EBI-TSI/butler:
-      - root: configuration/salt/pillar
-      - env: base
