@@ -1,6 +1,5 @@
 base:
   '*':
-    - dependencies
     - selinux
     - dnsmasq
     - elastic.filebeat
