@@ -12,7 +12,7 @@ logstash_consul_config:
 install_logstash_dependencies:
   pkg.installed:
     - pkgs:
-      - java
+      - java-1.8.0-openjdk
 
 logstash_repo:
   pkgrepo.managed:

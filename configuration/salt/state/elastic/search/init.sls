@@ -12,7 +12,7 @@ elastic_consul_config:
 install_elastic_dependencies:
   pkg.installed:
     - pkgs:
-      - java
+      - java-1.8.0-openjdk
 
 elasticsearch_repo:
   pkgrepo.managed:
