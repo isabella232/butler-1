@@ -4,11 +4,14 @@ logstash_consul_config:
     - source: salt://elastic/logstash/config/logstash_consul.json
     - user: root
     - group: root
-    - mode: 644 
-    - makedirs: True 
+    - mode: 644
+    - makedirs: True
   cmd.run:
     - name: systemctl restart consul
-        
+
+install_logstash_dependencies:
+  pgk.installed:
+    - name: java
 logstash_repo:
   pkgrepo.managed:
     - humanname: Logstash YUM Repo
@@ -18,7 +21,7 @@ logstash_repo:
 install_logstash:
   pkg.installed:
     - name: logstash
-    
+
 enable_on_boot_logstash:
   service.enabled:
     - name: logstash
@@ -26,11 +29,11 @@ enable_on_boot_logstash:
 install_beats_plugin:
   cmd.run:
     - name: /usr/share/logstash/bin/logstash-plugin install logstash-input-beats
-    
+
 update_beats_plugin:
   cmd.run:
     - name: /usr/share/logstash/bin/logstash-plugin update logstash-input-beats
-    
+
 /etc/logstash/conf.d/config.json:
   file.managed:
     - source: salt://elastic/logstash/config/config.json
@@ -39,8 +42,6 @@ update_beats_plugin:
     - mode: 600
     - makedirs: True
 
-start_logstash:    
+start_logstash:
   service.running:
     - name: logstash
-    
-    

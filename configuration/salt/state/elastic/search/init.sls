@@ -4,11 +4,15 @@ elastic_consul_config:
     - source: salt://elastic/search/config/elasticsearch_consul.json
     - user: root
     - group: root
-    - mode: 644 
-    - makedirs: True 
+    - mode: 644
+    - makedirs: True
   cmd.run:
     - name: systemctl restart consul
-    
+
+install_elastic_dependencies:
+  pgk.installed:
+    - name: java
+
 elasticsearch_repo:
   pkgrepo.managed:
     - humanname: Elastic YUM Repo
@@ -32,7 +36,7 @@ enable_on_boot_elasticsearch:
     - name: elasticsearch
 
 
-start_elasticsearch:    
+start_elasticsearch:
   service.running:
     - name: elasticsearch
 
@@ -59,4 +63,3 @@ load_filebeat_template:
 load_packetbeat_template:
   cmd.run:
     - name: curl -XPUT 'http://elasticsearch.service.consul:9200/_template/packetbeat' -d@/tmp/packetbeat.template.json --noproxy elasticsearch.service.consul
-
