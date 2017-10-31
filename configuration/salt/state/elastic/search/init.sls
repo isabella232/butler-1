@@ -11,7 +11,8 @@ elastic_consul_config:
 
 install_elastic_dependencies:
   pgk.installed:
-    - name: java
+    - pkgs:
+      - name: java
 
 elasticsearch_repo:
   pkgrepo.managed:

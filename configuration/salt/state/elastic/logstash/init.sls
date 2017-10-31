@@ -11,7 +11,9 @@ logstash_consul_config:
 
 install_logstash_dependencies:
   pgk.installed:
-    - name: java
+    - pkgs:
+      - name: java
+
 logstash_repo:
   pkgrepo.managed:
     - humanname: Logstash YUM Repo
