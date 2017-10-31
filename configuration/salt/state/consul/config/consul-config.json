@@ -11,7 +11,7 @@
 	"bootstrap": false,
 	"server": true,
 	"ui": true,
-	"bootstrap_expect": 3,
+	"bootstrap_expect": 2,
 {%- else %}
 	"server": false,
 {%- endif %}
