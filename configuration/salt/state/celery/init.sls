@@ -1,9 +1,8 @@
-prereqs_pip:
+install_celery:
   pkg.latest:
-    - pkgs: 
+    - pkgs:
       - python2-pip
 
-install_celery:
   pip.installed:
     - name: Celery
     - upgrade: True
