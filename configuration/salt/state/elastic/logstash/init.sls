@@ -10,9 +10,9 @@ logstash_consul_config:
     - name: systemctl restart consul
 
 install_logstash_dependencies:
-  pgk.installed:
+  pkg.installed:
     - pkgs:
-      - name: java
+      - java
 
 logstash_repo:
   pkgrepo.managed:

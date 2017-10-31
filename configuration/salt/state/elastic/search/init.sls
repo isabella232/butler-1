@@ -10,9 +10,9 @@ elastic_consul_config:
     - name: systemctl restart consul
 
 install_elastic_dependencies:
-  pgk.installed:
+  pkg.installed:
     - pkgs:
-      - name: java
+      - java
 
 elasticsearch_repo:
   pkgrepo.managed:
