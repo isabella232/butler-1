@@ -43,10 +43,11 @@ start_elasticsearch:
 
 wait_for_elasticsearch:
   cmd.run:
-    - name: until curl elasticsearch.service.consul:9200; do sleep 2; done
+    - name: until curl elasticsearch.service.consul:9200; do sleep 2; done; sleep 20
     - timeout: 20
     - onchanges:
         - service: elasticsearch
+        - service: consul
 
 /tmp/filebeat.template.json:
   file.managed:
