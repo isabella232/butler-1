@@ -41,6 +41,13 @@ start_elasticsearch:
   service.running:
     - name: elasticsearch
 
+wait_for_elasticsearch:
+  cmd.run:
+    - name: until curl elasticsearch.service.consul:9200; do sleep 2; done
+    - timeout: 20
+    - onchanges:
+        - service: elasticsearch
+
 /tmp/filebeat.template.json:
   file.managed:
     - source: salt://elastic/search/config/filebeat.template.json
