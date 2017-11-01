@@ -5,7 +5,7 @@ install_celery:
 
   pip.installed:
     - name: Celery
-    - upgrade: True
+#    - upgrade: True
 
 install_celery_bundles:
   pip.installed:
@@ -14,7 +14,7 @@ install_celery_bundles:
 install_celery_flower:
   pip.installed:
     - name: flower
-    - upgrade: True
+#    - upgrade: True
 
 postgres-devel:
   pkg.installed:
