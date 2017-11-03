@@ -1,28 +1,28 @@
 server {
 	listen {{ pillar["butler_web_port"] }};
-	
+
 	root /opt/butler/web/html;
 	index index.html index.htm;
 	server_name _;
-	
+
 	location / {
 		try_files $uri $uri/ / =404;
 	}
-	
+
 	location ^~ /chronograf/ {
 		proxy_pass http://influxdb.service.consul:8888/;
 		proxy_set_header Host $host;
 		proxy_set_header X-Real_IP $remote_addr;
 		proxy_set_header X-Forwarded-For $remote_addr;
 	}
-	
+
 	location ^~ /rabbitmq/ {
 		proxy_pass http://rabbitmq.service.consul:15672/;
 		proxy_set_header Host $host;
 		proxy_set_header X-Real_IP $remote_addr;
 		proxy_set_header X-Forwarded-For $remote_addr;
 	}
-	
+
 	location ^~ /flower/ {
 		proxy_pass http://airflow.service.consul:5555/;
 		rewrite ^/flower/(.*)$ /$1 break;
@@ -30,9 +30,9 @@ server {
 		proxy_set_header X-Real_IP $remote_addr;
 		proxy_set_header X-Forwarded-For $remote_addr;
 	}
-	
+
 	location ^~ /airflow/ {
-		proxy_pass http://airflow.service.consul:8889/;
+		proxy_pass http://airflow.service.consul:8889/airflow;
 		proxy_set_header Host $host:$server_port;
 		proxy_set_header X-Real_IP $remote_addr;
 		proxy_set_header X-Forwarded-For $remote_addr;
@@ -43,7 +43,7 @@ server {
 		proxy_set_header X-Real_IP $remote_addr;
 		proxy_set_header X-Forwarded-For $remote_addr;
 	}
-	
+
 	location ^~ /kibana/ {
 		proxy_pass http://kibana.service.consul:5601/;
 		proxy_set_header Host $host;
@@ -51,7 +51,7 @@ server {
 		proxy_set_header X-Forwarded-For $remote_addr;
 		rewrite /kibana/(.*) /$1 break;
 	}
-	
+
 	location ^~ /consul/ {
 		proxy_pass http://consul-ui.service.consul:8500/ui/;
 		proxy_set_header Host $host;
