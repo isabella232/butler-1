@@ -4,6 +4,6 @@ influxdb.http_port: 8086
 influxdb.udp_port: 8096
 influxdb.host: influxdb.service.consul
 influxdb.url: http://influxdb.service.consul:8086
-influxdb.dbname: metrics
+influxdb.dbname: telegraf
 influxdb.user: root
 influxdb.password: root
