@@ -1,14 +1,5 @@
 {
-  "__inputs": [
-    {
-      "name": "DS_TELEGRAF",
-      "label": "telegraf",
-      "description": "",
-      "type": "datasource",
-      "pluginId": "influxdb",
-      "pluginName": "InfluxDB"
-    }
-  ],
+  "__inputs":[],
   "__requires": [
     {
       "type": "grafana",
@@ -59,7 +50,7 @@
           "bars": false,
           "dashLength": 10,
           "dashes": false,
-          "datasource": "${DS_TELEGRAF}",
+          "datasource": "telegraf",
           "editable": true,
           "error": false,
           "fill": 1,
@@ -189,7 +180,7 @@
           "bars": false,
           "dashLength": 10,
           "dashes": false,
-          "datasource": "${DS_TELEGRAF}",
+          "datasource": "telegraf",
           "decimals": null,
           "editable": true,
           "error": false,
