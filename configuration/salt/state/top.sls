@@ -54,3 +54,7 @@ base:
     - git
     - nginx
     - butler.web
+
+otc:
+  '*':
+    - oneclient
