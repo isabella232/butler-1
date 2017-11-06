@@ -10,9 +10,10 @@ base:
     - consul.ui
   'G@roles:monitoring-server':
     - influxdb
-    - grafana
     - kapacitor
     - chronograf
+    - grafana
+    - grafana.create_data_source
   'G@roles:worker':
     - git
     - celery
