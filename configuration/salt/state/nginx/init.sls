@@ -4,7 +4,6 @@ allow_nginx_connect:
     - value: 1
     - persist: true
 
-
 nginx:
   pkg:
     - installed
@@ -13,6 +12,7 @@ nginx:
       - pkg: nginx
       - file: /etc/nginx/nginx.conf
       - file: /etc/nginx/sites-available/*
+      - file: /etc/nginx/sites-enabled/butler-site
 
 /etc/nginx/nginx.conf:
   file.managed:
@@ -20,6 +20,3 @@ nginx:
     - user: root
     - group: root
     - mode: 640
-    
-
-      
