@@ -10,7 +10,6 @@ freebayes_pkgs:
       - gcc
       - zlib-devel
       - bzip2-devel
-      - lzma-devel
       - xz-devel
 
 freebayes-clone:
