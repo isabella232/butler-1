@@ -58,3 +58,8 @@ base:
 otc:
   '*':
     - oneclient
+  'G@roles:worker':
+    - biotools.freebayes
+    - biotools.htslib
+    - biotools.samtools
+    - biotools.delly
