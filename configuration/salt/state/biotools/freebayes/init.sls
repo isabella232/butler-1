@@ -9,7 +9,10 @@ freebayes_pkgs:
       - kernel-devel
       - gcc
       - zlib-devel
-      
+      - bzip2-devel
+      - lzma-devel
+      - xz-devel
+
 freebayes-clone:
   git.latest:
 #    - rev: v0.9.20
@@ -17,7 +20,7 @@ freebayes-clone:
     - name: git://github.com/ekg/freebayes.git
     - target: /opt/freebayes
     - submodules: True
-    
+
 freebayes-submodule-init:
   module.run:
     - name: git.submodule
@@ -26,19 +29,19 @@ freebayes-submodule-init:
     - opts: '--recursive --init'
     - require_in:
       - cmd: freebayes-make
-          
+
 freebayes-make:
   cmd.run:
     - name: make
     - cwd: /opt/freebayes
-    - watch: 
+    - watch:
       - git: freebayes-clone
-      
+
 freebayes-install:
   cmd.run:
     - name: make install
     - cwd: /opt/freebayes
-    - watch: 
+    - watch:
       - cmd: freebayes-make
 /usr/bin/freebayes:
   file.symlink:

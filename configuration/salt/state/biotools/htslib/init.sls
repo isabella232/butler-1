@@ -5,21 +5,21 @@ htslib-clone:
     - name: https://github.com/samtools/htslib.git
     - target: /opt/htslib
     - submodules: True
-    
+
 htslib-make:
   cmd.run:
     - name: make
     - cwd: /opt/htslib
-    - watch: 
+    - watch:
       - git: htslib-clone
       
 htslib-install:
   cmd.run:
     - name: make install
     - cwd: /opt/htslib
-    - watch: 
+    - watch:
       - cmd: htslib-make
-      
+
 /usr/bin/htslib:
   file.symlink:
     - target: /opt/htslib/bin/htslib
