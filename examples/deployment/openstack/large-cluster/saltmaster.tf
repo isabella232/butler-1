@@ -48,7 +48,7 @@ resource "openstack_compute_instance_v2" "salt-master" {
       "sudo yum install python-pip -y",
       "sudo yum install salt-master -y",
       "sudo yum install salt-minion -y",
-      "sudo yum install GitPython -y",
+      "sudo yum install python-pygit2 -y",
       "sudo service salt-master stop",
       "sudo mv /home/centos/master /etc/salt/master",
       "sudo service salt-master start",
