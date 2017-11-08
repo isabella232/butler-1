@@ -16,7 +16,7 @@ file_roots:
     - /srv/salt/otc
 
 
-gitfs_provider: python-pygit2
+gitfs_provider: pygit2
 gitfs_remotes:
   - git://github.com/EMBL-EBI-TSI/butler:
     - root: configuration/salt/state
