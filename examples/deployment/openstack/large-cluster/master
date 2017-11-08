@@ -12,8 +12,8 @@ fileserver_backend:
 file_roots:
   base:
     - /srv/salt/base
-  otc:
-    - /srv/salt/otc
+  rhea-otc:
+    - /srv/salt/rhea-otc
 
 
 gitfs_provider: pygit2
@@ -25,7 +25,7 @@ gitfs_remotes:
 pillar_roots:
   base:
     - /srv/pillar
-  otc:
+  rhea-otc:
     - /srv/pillar
 
 top_file_merging_strategy: same
