@@ -3,4 +3,5 @@ mine_functions:
   network.interfaces: []
   network.ip_addrs:
     - eth0
+  network.fqdn_ip4: []
   grains.items: []
