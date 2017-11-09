@@ -13,8 +13,8 @@ install_oneclient:
 # Create mountpoint
 {{ pillar['oneprovider_mountpoint'] }}:
   file.directory:
-    - user: centos
-    - group: centos
+    - user: {{ pillar ['oneprovider_user'] }}
+    - group: {{ pillar ['oneprovider_group'] }}
 
 mount_space:
   cmd.run:
