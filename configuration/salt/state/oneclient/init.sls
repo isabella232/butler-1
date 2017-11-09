@@ -19,8 +19,4 @@ install_oneclient:
 mount_space:
   cmd.run:
     - name: oneclient {% if pillar['oneprovider_insecure'] %} -i {% endif %} -H {{ pillar['oneprovider_host'] }} -t {{ pillar['oneprovider_token'] }} {{ pillar['oneprovider_mountpoint'] }}
-<<<<<<< HEAD
-    - user: airflow
-=======
-    - user: centos
->>>>>>> c6ef4d61295ccff984f07f35caa509640f6c30c7
+    - user: {{ pillar ['oneprovider_user'] }}
