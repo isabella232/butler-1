@@ -1,6 +1,7 @@
 resource "openstack_compute_instance_v2" "job-queue" {
   depends_on = ["openstack_compute_instance_v2.salt-master"]
 
+  availability_zone = "${var.availability_zone}"
   image_id        = "${var.image_id}"
   flavor_name     = "${var.job_queue_flavor}"
   security_groups = ["${openstack_compute_secgroup_v2.allow-traffic.name}", "${var.main_security_group_name}"]

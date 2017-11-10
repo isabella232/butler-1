@@ -25,6 +25,10 @@ variable "user" {
   default = "centos"
 }
 
+variable "availability_zone" {
+	default = ""
+}
+
 variable "key_file" {}
 
 variable "main_network_uuid" {
