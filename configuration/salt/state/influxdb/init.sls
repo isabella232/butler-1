@@ -3,19 +3,20 @@ influxdb:
     - sources:
       - influxdb: https://dl.influxdata.com/influxdb/releases/influxdb-1.3.5.x86_64.rpm
   service.running:
+    - enable: true
     - require:
       - pkg: influxdb
       - user: influxdb
     - watch:
       - file: /etc/influxdb/influxdb.conf
-      
+
 influxdb_user:
   user.present:
     - name: influxdb
     - home: /home/influxdb
     - gid_from_name: True
     - empty_password: True
-  
+
 /var/lib/.influxdb:
   file.directory:
     - user: influxdb
@@ -45,8 +46,8 @@ influxdb_user:
     - user: influxdb
     - group: influxdb
     - dir_mode: 755
-    - file_mode: 644    
-    
+    - file_mode: 644
+
 /etc/influxdb/influxdb.conf:
   file.managed:
     - source: salt://influxdb/config/influxdb.conf
@@ -61,7 +62,7 @@ influxdb_consul_config:
     - source: salt://influxdb/config/influxdb_consul.json
     - user: root
     - group: root
-    - mode: 644 
-    - makedirs: True    
+    - mode: 644
+    - makedirs: True
   cmd.run:
     - name: systemctl restart consul

@@ -7,7 +7,7 @@ telegraf:
       - pkg: telegraf
     - watch:
       - file: /etc/telegraf/telegraf.conf
-            
+
 /etc/telegraf/telegraf.conf:
   file.managed:
     - source: salt://telegraf/config/telegraf.conf
