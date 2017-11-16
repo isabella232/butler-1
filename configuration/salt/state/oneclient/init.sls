@@ -13,10 +13,10 @@ install_oneclient:
 # Create mountpoint
 {{ pillar['oneprovider_mountpoint'] }}:
   file.directory:
-    - user: {{ pillar ['oneprovider_user'] }}
-    - group: {{ pillar ['oneprovider_group'] }}
+    - user: centos
+    - group: centos
 
 mount_space:
   cmd.run:
-    - name: oneclient {% if pillar['oneprovider_insecure'] %} -i {% endif %} -H {{ pillar['oneprovider_host'] }} -t {{ pillar['oneprovider_token'] }} {{ pillar['oneprovider_mountpoint'] }}
-    - user: {{ pillar ['oneprovider_user'] }}
+    - name: oneclient {% if pillar['oneprovider_insecure'] %} -i {% endif %} --force-direct-io -H {{ pillar['oneprovider_host'] }} -t {{ pillar['oneprovider_token'] }} {{ pillar['oneprovider_mountpoint'] }}
+    - user: airflow
