@@ -19,4 +19,4 @@ install_oneclient:
 mount_space:
   cmd.run:
     - name: oneclient {% if pillar['oneprovider_insecure'] %} -i {% endif %} --force-direct-io -H {{ pillar['oneprovider_host'] }} -t {{ pillar['oneprovider_token'] }} {{ pillar['oneprovider_mountpoint'] }}
-    - user: airflow
+    - user: {{ pillar['oneprovider_user'] }}
