@@ -17,11 +17,6 @@ set_up_db_server:
      - tgt_type: grain
      - highstate: True
 
-set_up_salt_master:
-  salt.state:
-    - tgt: 'salt-master'
-    - highstate: True
-
 set_up_job_queue:
    salt.state:
      - tgt: 'roles:job-queue'
@@ -39,6 +34,11 @@ set_up_monitoring_server:
      - tgt: 'roles:monitoring-server'
      - tgt_type: grain
      - highstate: True
+
+set_up_salt_master:
+  salt.state:
+    - tgt: 'salt-master'
+    - highstate: True
 
 set_up_workers:
    salt.state:
