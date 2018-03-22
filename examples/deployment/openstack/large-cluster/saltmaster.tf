@@ -20,11 +20,11 @@ resource "openstack_compute_instance_v2" "salt-master" {
 	 	
 	provisioner "file" {
         	source = "./master"
-        	destination = "/home/centos/master"
+        	destination = "/home/${var.user}/master"
     	}
 	provisioner "file" {
         	source = "./collectdlocal.pp"
-        	destination = "/home/centos/collectdlocal.pp"
+        	destination = "/home/${var.user}/collectdlocal.pp"
     	}
 	provisioner "file" {
 	  source = "salt_setup.sh"
@@ -40,10 +40,10 @@ resource "openstack_compute_instance_v2" "salt-master" {
 	  inline = [
 		     "sudo yum install salt-master -y",
 		     "sudo service salt-master stop",
-		     "sudo mv -f /home/centos/master /etc/salt/master",       
+		     "sudo mv -f /home/${var.user}/master /etc/salt/master",       
 		     "sudo yum install salt-minion -y",
 		     "sudo yum install python-pip -y",
-		     "sudo pip uninstall tornado",
+		     "sudo pip uninstall tornado -y",
 		     "sudo pip install tornado",
 		     "sudo yum install GitPython -y",
 		     "sudo service salt-master start",

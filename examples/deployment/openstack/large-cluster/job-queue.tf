@@ -7,7 +7,7 @@ resource "openstack_compute_instance_v2" "job-queue" {
 	security_groups = ["${openstack_compute_secgroup_v2.allow-traffic.name}", "${var.main-security-group-id}"]
 	name = "butler-job-queue"
 	network = {
-		name = "${var.network_name}"
+		uuid = "${var.main_network_id}"
 	}
 	connection {
 		user = "${var.user}"

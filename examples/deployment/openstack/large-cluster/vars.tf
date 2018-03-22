@@ -1,3 +1,4 @@
+variable "domain_name" {}
 
 variable "user_name" {
 	default="CHANGE_ME"
@@ -47,8 +48,6 @@ variable "network_name" {
 
 variable "main_network_id" {
 	default=""
-}
-
 }
 
 variable "floatingip_pool" {
