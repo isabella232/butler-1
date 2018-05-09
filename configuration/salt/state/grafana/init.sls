@@ -10,7 +10,7 @@ grafana:
     - baseurl: https://packagecloud.io/grafana/stable/el/6/x86_64
     - gpgkey: https://packagecloud.io/gpg.key https://grafanarel.s3.amazonaws.com/RPM-GPG-KEY-grafana
   pkg.installed:
-    - name: grafana
+    - name: grafana-4.6.3-1
   service.running:
     - name: grafana-server
     - require:
