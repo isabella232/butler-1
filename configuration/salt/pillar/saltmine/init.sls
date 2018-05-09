@@ -9,5 +9,3 @@ mine_functions:
 {% else %}
     cidr: 192.168.0.0/16
 {% endif %}
-=======
-    cidr: 192.168.0.0/16
