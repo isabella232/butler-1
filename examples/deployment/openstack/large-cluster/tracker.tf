@@ -2,14 +2,24 @@ resource "openstack_compute_instance_v2" "tracker" {
   depends_on = ["openstack_compute_instance_v2.salt-master"]
 
   availability_zone = "${var.availability_zone}"
-  image_id        = "${var.image_id}"
+#  image_id        = "${var.image_id}"
   flavor_name     = "${var.tracker_flavor}"
   security_groups = ["${openstack_compute_secgroup_v2.allow-traffic.name}", "${var.main_security_group_name}"]
   name            = "butler-tracker"
+  availability_zone = "${var.availability_zone}"
 
   network = {
     uuid = "${var.main_network_uuid}"
-    name = "${var.main_network_name}"
+    #name = "${var.main_network_name}"
+  }
+
+  block_device {
+    uuid = "${var.image_id}"
+    source_type = "image"
+    volume_size = "${var.disk_size_gb}"
+    boot_index = 0
+    destination_type = "volume"
+    delete_on_termination = true
   }
 
   connection {

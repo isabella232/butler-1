@@ -54,3 +54,10 @@ base:
     - git
     - nginx
     - butler.web
+
+rhea-otc:
+  'G@roles:worker':
+    - biotools.freebayes
+    - biotools.htslib
+    - biotools.samtools
+    - biotools.delly

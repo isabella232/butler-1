@@ -12,9 +12,8 @@ fileserver_backend:
 file_roots:
   base:
     - /srv/salt/base
-  otc:
+  rhea-otc:
     - /srv/salt/otc
-
 
 gitfs_provider: pygit2
 gitfs_remotes:
@@ -25,15 +24,13 @@ gitfs_remotes:
 pillar_roots:
   base:
     - /srv/pillar
-  otc:
+  rhea-otc:
     - /srv/pillar
 
 top_file_merging_strategy: same
 default_top: base
 
 ext_pillar:
-#  - hiera: /etc/hiera.yaml
-#  - cmd_yaml: cat /etc/salt/yaml
   - git:
     - master git://github.com/EMBL-EBI-TSI/butler:
       - root: configuration/salt/pillar

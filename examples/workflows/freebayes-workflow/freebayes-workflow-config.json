@@ -15,6 +15,6 @@
 		"flags": "-a -v --remove-source-files"
 	},
 	"freebayes": {
-		"path": "/bin/freebayes"
+		"path": "/usr/local/bin/freebayes"
 	}
 }

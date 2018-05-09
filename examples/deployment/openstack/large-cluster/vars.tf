@@ -11,6 +11,19 @@ variable "auth_url" {
 }
 */
 
+variable "availability_zone" {
+        default=""
+}
+
+variable "otc_secgroup" {
+  default = ""
+}
+
+variable "disk_size_gb" { 
+        default = 20 
+}
+variable "main-security-group-id" {}
+
 variable "key_pair" {}
 
 variable "bastion_key_file" {}

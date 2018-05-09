@@ -2,6 +2,9 @@
 
 echo "got $1 as master ip, $2 as id and $3 as roles"
 
+sudo systemctl disable firewalld
+sudo systemctl stop firewalld
+
 sudo yum install epel-release -y
 #sudo yum -y update
 sudo yum install wget yum-plugin-priorities -y
