@@ -27,7 +27,7 @@ airflow_user:
   user.present:
     - name: airflow
     - home: /home/airflow
-    - gid_from_name: True
+    - gid: airflow
     - empty_password: True
     
 {{ pillar['airflow_home'] }}:
