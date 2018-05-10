@@ -2,7 +2,7 @@ butler-clone:
   git.latest:
     - rev: master
     - force_reset: True
-    - name: https://github.com/llevar/butler.git
+    - name: https://github.com/EMBL-EBI-TSI/butler.git
     - target: /opt/butler
     - submodules: True
     
