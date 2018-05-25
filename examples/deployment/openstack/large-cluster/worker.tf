@@ -2,10 +2,9 @@ resource "openstack_compute_instance_v2" "worker" {
   depends_on = ["openstack_compute_instance_v2.salt-master"]
 
   availability_zone = "${var.availability_zone}"
-#  image_id        = "${var.image_id}"
   flavor_name     = "${var.worker_flavor}"
-  security_groups = ["${openstack_compute_secgroup_v2.allow-traffic.name}", "${var.main_security_group_name}", "${var.otc_secgroup}"]
-  name            = "butler-worker-${count.index}"
+  security_groups = ["${openstack_compute_secgroup_v2.allow-traffic.name}", "${var.main_security_group_name}"]
+  name            = "${var.namespace}-worker-${count.index}"
   availability_zone = "${var.availability_zone}"
 
   block_device {
@@ -19,14 +18,13 @@ resource "openstack_compute_instance_v2" "worker" {
 
   network = {
     uuid = "${var.main_network_uuid}"
-    #name = "${var.main_network_name}"
   }
 
   connection {
     user                = "${var.user}"
     private_key         = "${file(var.key_file)}"
-    bastion_private_key = "${file(var.key_file)}"
-    bastion_host        = "${var.bastion_host}"
+    bastion_private_key = "${file(var.bastion_key_file)}"
+    bastion_host        = "${var.bastion_host_ip}"
     bastion_user        = "${var.bastion_user}"
     agent               = true
   }
@@ -36,13 +34,38 @@ resource "openstack_compute_instance_v2" "worker" {
 
   provisioner "file" {
     source      = "salt_setup.sh"
-    destination = "/tmp/salt_setup.sh"
+    destination = "/home/${var.user}/salt_setup.sh"
   }
 
   provisioner "remote-exec" {
     inline = [
-      "chmod +x /tmp/salt_setup.sh",
-      "/tmp/salt_setup.sh ${null_resource.masterip.triggers.address} worker-${count.index} \"worker, consul-client\"",
+      "chmod +x /home/${var.user}/salt_setup.sh",
+      "/home/${var.user}/salt_setup.sh ${null_resource.masterip.triggers.address} worker-${count.index} \"worker, consul-client\"",
+    ]
+  }
+
+#
+# This is for T-Systems, where SSH port forwarding is disabled by default
+#
+  provisioner "file" {
+    source      = "sshd-fix.sh"
+    destination = "/home/${var.user}/sshd-fix.sh"
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "chmod +x /home/${var.user}/sshd-fix.sh",
+      "sudo /home/${var.user}/sshd-fix.sh"
+    ]
+  }
+
+#
+# For the FreeBayes example, unpack the tarball from the git distribution
+#
+  provisioner "remote-exec" {
+    inline = [
+      "cd /opt/butler/examples/data/ref",
+      "sudo tar xvf human_g1k_v37.20.fasta.tar.gz"
     ]
   }
 }

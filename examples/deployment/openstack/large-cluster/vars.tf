@@ -1,15 +1,22 @@
-/* variable "user_name" {
-	default="CHANGE_ME"
+variable "namespace" {
+  default="butler"
+}
+
+variable "user_name" {
+  default="CHANGE_ME"
 }
 variable "password" {
 	default="CHANGE_ME"
 }
 variable "tenant_name" {
-	default="Pan-Prostate"
+  default="Pan-Prostate"
+}
+variable "domain_name" {
+  default="CHANGE_ME"
 }
 variable "auth_url" {
 }
-*/
+
 
 variable "availability_zone" {
         default=""
@@ -28,7 +35,8 @@ variable "key_pair" {}
 
 variable "bastion_key_file" {}
 
-variable "bastion_host" {}
+variable "bastion_host_ip" {}
+variable "bastion_host_name" {}
 
 variable "bastion_user" {}
 
@@ -46,10 +54,6 @@ variable "main_network_uuid" {
 }
 
 variable "main_network_name" {
-  default = ""
-}
-
-variable "main_network_id" {
   default = ""
 }
 

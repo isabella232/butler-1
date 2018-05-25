@@ -1,5 +1,5 @@
 resource "openstack_compute_secgroup_v2" "allow-traffic" {
-  name        = "butler-firewall"
+  name        = "${var.namespace}-firewall"
   description = "Allow traffic across butler instances"
 
   rule {

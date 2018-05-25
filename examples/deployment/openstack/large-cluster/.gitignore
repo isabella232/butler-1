@@ -1,0 +1,6 @@
+.terraform
+ssh-config*
+*.pem
+*.pub
+*.key
+*.swp

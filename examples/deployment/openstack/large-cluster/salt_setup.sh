@@ -2,6 +2,7 @@
 
 echo "got $1 as master ip, $2 as id and $3 as roles"
 
+set -ex
 sudo systemctl disable firewalld
 sudo systemctl stop firewalld
 

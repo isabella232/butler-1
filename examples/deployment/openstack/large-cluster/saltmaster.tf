@@ -1,11 +1,9 @@
 
 resource "openstack_compute_instance_v2" "salt-master" {
   availability_zone = "${var.availability_zone}"
-  #image_id        = "${var.image_id}"
   flavor_name     = "${var.salt_master_flavor}"
   security_groups = ["${openstack_compute_secgroup_v2.allow-traffic.name}", "${var.main_security_group_name}"]
-  name            = "butler-salt-master"
-  availability_zone = "${var.availability_zone}"
+  name            = "${var.namespace}-salt-master"
 
   block_device {
     uuid = "${var.image_id}"
@@ -18,14 +16,15 @@ resource "openstack_compute_instance_v2" "salt-master" {
 
   network = {
     uuid = "${var.main_network_uuid}"
+    # name = "${var.main_network_name}"
   }
 
   connection {
     user                = "${var.user}"
     private_key         = "${file(var.key_file)}"
-    agent               = true
+    agent               = false
     bastion_private_key = "${file(var.bastion_key_file)}"
-    bastion_host        = "${var.bastion_host}"
+    bastion_host        = "${var.bastion_host_ip}"
     bastion_user        = "${var.bastion_user}"
   }
 
@@ -36,21 +35,15 @@ resource "openstack_compute_instance_v2" "salt-master" {
     destination = "/home/${var.user}/master"
   }
 
-  /*
-  	provisioner "file" {
-          	source = "./collectdlocal.pp"
-          	destination = "/home/centos/collectdlocal.pp"
-      	}
-  */
   provisioner "file" {
     source      = "salt_setup.sh"
-    destination = "/tmp/salt_setup.sh"
+    destination = "/home/${var.user}/salt_setup.sh"
   }
 
   provisioner "remote-exec" {
     inline = [
-      "chmod +x /tmp/salt_setup.sh",
-      "/tmp/salt_setup.sh `hostname -I` salt-master \"salt-master, consul-server, monitoring-server, consul-ui, butler-web, elasticsearch\"",
+      "chmod +x /home/${var.user}/salt_setup.sh",
+      "/home/${var.user}/salt_setup.sh `hostname -I` salt-master \"salt-master, consul-server, monitoring-server, consul-ui, butler-web, elasticsearch\"",
     ]
   }
 
@@ -65,8 +58,21 @@ resource "openstack_compute_instance_v2" "salt-master" {
       "sudo mv /home/${var.user}/master /etc/salt/master",
       "sudo service salt-master start",
       "sudo hostname salt-master",
-      #     "sudo semodule -i collectdlocal.pp",
     ]
+  }
 
+#
+# This is for T-Systems, where SSH port forwarding is disabled by default
+#
+  provisioner "file" {
+    source      = "sshd-fix.sh"
+    destination = "/home/${var.user}/sshd-fix.sh"
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "chmod +x /home/${var.user}/sshd-fix.sh",
+      "sudo /home/${var.user}/sshd-fix.sh",
+    ]
   }
 }
