@@ -19,3 +19,8 @@ echo "id: $2" | sudo tee -a /etc/salt/minion
 echo "roles: [$3]" | sudo tee -a /etc/salt/grains
 sudo hostnamectl set-hostname $2
 sudo service salt-minion start
+
+#
+# For the FreeBayes example, unpack the tarball from the git distribution
+cd /opt/butler/examples/data/ref
+sudo tar xvf human_g1k_v37.20.fasta.tar.gz

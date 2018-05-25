@@ -58,14 +58,4 @@ resource "openstack_compute_instance_v2" "worker" {
       "sudo /home/${var.user}/sshd-fix.sh"
     ]
   }
-
-#
-# For the FreeBayes example, unpack the tarball from the git distribution
-#
-  provisioner "remote-exec" {
-    inline = [
-      "cd /opt/butler/examples/data/ref",
-      "sudo tar xvf human_g1k_v37.20.fasta.tar.gz"
-    ]
-  }
 }
