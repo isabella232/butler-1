@@ -132,10 +132,10 @@ resource "null_resource" "epilogue-salt-setup" {
     destination = "/home/${var.user}/salt-epilogue.sh"
   }
 
-  provisioner "file" {
-    source      = "post-launch-check/"
-    destination = "/home/${var.user}"
-  }
+  # provisioner "file" {
+  #   source      = "post-launch-check/"
+  #   destination = "/home/${var.user}"
+  # }
 
   provisioner "remote-exec" {
     inline = [
