@@ -44,10 +44,9 @@ resource "openstack_compute_instance_v2" "worker" {
     ]
   }
 
-#
-# This is for T-Systems, where SSH port forwarding is disabled by default
-#
   provisioner "file" {
+    #
+    # This is for T-Systems, where SSH port forwarding is disabled by default
     source      = "sshd-fix.sh"
     destination = "/home/${var.user}/sshd-fix.sh"
   }
@@ -58,4 +57,25 @@ resource "openstack_compute_instance_v2" "worker" {
       "sudo /home/${var.user}/sshd-fix.sh"
     ]
   }
+
+  provisioner "remote-exec" {
+    #
+    # This sets up the oneclient mount-point
+    inline = [
+      "curl -sS -o oneclient.sh http://get.onedata.org/oneclient.sh",
+      "chmod +x oneclient.sh",
+      "sudo ./oneclient.sh"
+    ]
+  }
+  provisioner "remote-exec" {
+    #
+    # These options are valid for:
+    # Oneclient: 18.02.0-rc4
+    # FUSE library: 2.9
+    inline = [
+      "sudo mkdir -p /data",
+      "sudo oneclient -i -H ebi-otc.onedata.hnsc.otc-service.com -t ${var.oneclient_token} /data --force-direct-io -o allow_other --force-fullblock-read  --rndrd-prefetch-cluster-window=10485760 --rndrd-prefetch-cluster-block-threshold=5 --provider-timeout=7200 -v 1"
+    ]
+  }
+
 }

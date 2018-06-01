@@ -86,5 +86,10 @@ variable "tracker_flavor" {
 }
 
 variable "main_security_group_name" {
+  default = "default"
+}
+
+variable "oneclient_token" {
   default = ""
 }
+

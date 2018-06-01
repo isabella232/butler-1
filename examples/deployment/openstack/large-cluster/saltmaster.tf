@@ -75,4 +75,23 @@ resource "openstack_compute_instance_v2" "salt-master" {
       "sudo /home/${var.user}/sshd-fix.sh",
     ]
   }
+
+#
+# This is trying to get the IP of all the workers, to configure the SSH config file.
+# There has to be a better way!
+#
+  provisioner "file" {
+    source      = "get-worker-ssh-config.sh"
+    destination = "/home/${var.user}/get-worker-ssh-config.sh"
+  }
+
+  #
+  # This doesn't work because I don't know how to pull the output back to the local machine
+  # provisioner "remote-exec" {
+  #   inline = [
+  #     "chmod +x /home/${var.user}/get-worker-ssh-config.sh",
+  #     "sudo /home/${var.user}/get-worker-ssh-config.sh | tee ssh-config-workers",
+  #   ]
+  # }
+
 }

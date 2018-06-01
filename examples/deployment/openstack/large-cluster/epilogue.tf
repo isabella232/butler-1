@@ -145,3 +145,11 @@ resource "null_resource" "epilogue-salt-setup" {
   }
 
 }
+
+  # provisioner "remote-exec" {
+  #   #
+  #   # Extract the reference genome data
+  #   inline = [
+  #     "sudo tar --directory /opt/butler/examples/data/ref -xf /opt/butler/examples/data/ref/human_g1k_v37.20.fasta.tar.gz"
+  #   ]
+  # }
