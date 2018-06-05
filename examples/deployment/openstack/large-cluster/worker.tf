@@ -26,7 +26,7 @@ resource "openstack_compute_instance_v2" "worker" {
     bastion_private_key = "${file(var.bastion_key_file)}"
     bastion_host        = "${var.bastion_host_ip}"
     bastion_user        = "${var.bastion_user}"
-    agent               = true
+    agent               = false
   }
 
   count    = "${var.worker_count}"
@@ -70,10 +70,14 @@ resource "openstack_compute_instance_v2" "worker" {
   provisioner "remote-exec" {
     #
     # These options are valid for:
-    # Oneclient: 18.02.0-rc4
+    # Oneclient: 18.02.0-rc5
     # FUSE library: 2.9
+    #
+    # N.B. They upgraded the default RPM to rc6, but the server is still rc5, so have to manually back off...
     inline = [
       "sudo mkdir -p /data",
+      "yum remove -y oneclient",
+      "yum install -y http://packages.onedata.org/yum/centos/7x/x86_64/oneclient-18.02.0.rc5-1.el7.centos.x86_64.rpm",
       "sudo oneclient -i -H ebi-otc.onedata.hnsc.otc-service.com -t ${var.oneclient_token} /data --force-direct-io -o allow_other --force-fullblock-read  --rndrd-prefetch-cluster-window=10485760 --rndrd-prefetch-cluster-block-threshold=5 --provider-timeout=7200 -v 1"
     ]
   }

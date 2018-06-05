@@ -28,7 +28,7 @@ resource "openstack_compute_instance_v2" "tracker" {
     bastion_private_key = "${file(var.key_file)}"
     bastion_host        = "${var.bastion_host_ip}"
     bastion_user        = "${var.bastion_user}"
-    agent               = true
+    agent               = false
   }
 
   key_pair = "${var.key_pair}"

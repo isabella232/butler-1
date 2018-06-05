@@ -68,11 +68,11 @@ To install onedata client:
     --provider-timeout=7200 \
     -v 1
 
-where:
-YOUR-TOKEN = MDAxNWxvY2F00aW9uIG9uZXpvbmUKMDAzMGlkZW500aWZpZXIgYzkyYWZhZDFkMjM2YWVmMTYzMWE1YmE4MDliZjJmMGYKMDAxYWNpZCB00aW1lIDwgMTU1MzU5Mjg4OQowMDJmc2lnbmF00dXJlIM2GJqJ3s00Hks4BMZi95e01ve00cneS9bVR4qXT3GyDFY02Cg
+see file oneclient.token.txt for the token value
 
 - if you need to install the client manually:
   > rpm -i http://packages.onedata.org/yum/centos/7x/x86_64/oneclient-18.02.0.rc4-1.el7.centos.x86_64.rpm
+  > rpm -i http://packages.onedata.org/yum/centos/7x/x86_64/oneclient-18.02.0.rc5-1.el7.centos.x86_64.rpm
 
 - make sure grafana is running, set up dashboards
   > ssh -F ssh-config -L 3000:grafana.service.consul:3000 salt-master
@@ -117,3 +117,8 @@ To re-start airflow
 -------------
 Getting the worker entries for the ssh-config file:
 ssc salt-master sudo ./get-worker-ssh-config.sh 2>/dev/null | tee -a ssh-config
+
+-------------
+For large clusters:
+- make sure 'agent' is set to 'false'
+> terraform apply --parallelism=20 --auto-approve
