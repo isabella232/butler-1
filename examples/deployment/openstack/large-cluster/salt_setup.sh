@@ -2,6 +2,8 @@
 
 echo "got $1 as master ip, $2 as id and $3 as roles"
 
+#
+# Don't care if these fail, it may be because firewalld isn't running to start with
 sudo systemctl disable firewalld
 sudo systemctl stop firewalld
 
