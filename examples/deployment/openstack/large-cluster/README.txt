@@ -1,5 +1,7 @@
 Tips and tricks...
 
+- install terraform from https://releases.hashicorp.com/terraform/0.11.7/terraform_0.11.7_linux_amd64.zip, just unzip and put in place.
+
 - For debugging terraform, set TF_LOG=DEBUG and OS_DEBUG=1
 
 - Note that the db-master needs 4GB RAM, I'm not sure about other nodes minimum requirements
@@ -16,6 +18,7 @@ Tips and tricks...
 
 - To set up a bastion on T-systems:
   - standard CentOS7 latest, s2.medium image, private IP address, it's own keypair.
+    - s2.medium doesn't seem to be big enough, need lots of RAM to support lots of connections?
   - edit /etc/ssh/sshd_config and set 'AllowTcpForwarding yes', then
   - as root, 'systemctl restart sshd.service'
    (that needs to be done on all hosts!)

@@ -18,10 +18,6 @@ output "worker-0" {
   value = "${openstack_compute_instance_v2.worker.0.access_ip_v4}"
 }
 
-#output "worker-1" {
-#  value = "${openstack_compute_instance_v2.worker.1.access_ip_v4}"
-#}
-
-#output "worker-2" {
-#  value = "${openstack_compute_instance_v2.worker.1.access_ip_v4}"
-#}
+# output "public_ips" {
+#   value = ["${openstack_compute_instance_v2.worker.*.acces_ip_v4}"]
+# }
