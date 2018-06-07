@@ -132,24 +132,11 @@ resource "null_resource" "epilogue-salt-setup" {
     destination = "/home/${var.user}/salt-epilogue.sh"
   }
 
-  # provisioner "file" {
-  #   source      = "post-launch-check/"
-  #   destination = "/home/${var.user}"
-  # }
-
-  provisioner "remote-exec" {
-    inline = [
-      "chmod +x /home/${var.user}/*.sh",
-      "sudo /home/${var.user}/salt-epilogue.sh"
-    ]
-  }
+#  provisioner "remote-exec" {
+#    inline = [
+#      "chmod +x /home/${var.user}/*.sh",
+#      "sudo /home/${var.user}/salt-epilogue.sh"
+#    ]
+#  }
 
 }
-
-  # provisioner "remote-exec" {
-  #   #
-  #   # Extract the reference genome data
-  #   inline = [
-  #     "sudo tar --directory /opt/butler/examples/data/ref -xf /opt/butler/examples/data/ref/human_g1k_v37.20.fasta.tar.gz"
-  #   ]
-  # }
