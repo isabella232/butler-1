@@ -29,18 +29,23 @@ resource "null_resource" "epilogue-bastion" {
   echo " "
   echo "Host salt-master"
   echo "  HostName  ${openstack_compute_instance_v2.salt-master.access_ip_v4}"
+  echo "  ProxyCommand ssh ${var.bastion_host_ip} -W %h:%p"
   echo " "
   echo "Host db-master"
   echo "  HostName  ${openstack_compute_instance_v2.db-server.access_ip_v4}"
+  echo "  ProxyCommand ssh ${var.bastion_host_ip} -W %h:%p"
   echo " "
   echo "Host tracker"
   echo "  HostName  ${openstack_compute_instance_v2.tracker.access_ip_v4}"
+  echo "  ProxyCommand ssh ${var.bastion_host_ip} -W %h:%p"
   echo " "
   echo "Host job-queue"
   echo "  HostName  ${openstack_compute_instance_v2.job-queue.access_ip_v4}"
+  echo "  ProxyCommand ssh ${var.bastion_host_ip} -W %h:%p"
   echo " "
   echo "Host worker-0"
   echo "  HostName  ${openstack_compute_instance_v2.worker.0.access_ip_v4}"
+  echo "  ProxyCommand ssh ${var.bastion_host_ip} -W %h:%p"
 ) | tee ssh-config.bastion
 EOF
   }
