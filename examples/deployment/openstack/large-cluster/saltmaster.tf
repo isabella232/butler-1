@@ -87,11 +87,31 @@ resource "openstack_compute_instance_v2" "salt-master" {
 
   #
   # This doesn't work because I don't know how to pull the output back to the local machine
+  #
+  # Could use 'terraform output public_ips' and wobble the output...?
+  #
   # provisioner "remote-exec" {
   #   inline = [
   #     "chmod +x /home/${var.user}/get-worker-ssh-config.sh",
   #     "sudo /home/${var.user}/get-worker-ssh-config.sh | tee ssh-config-workers",
   #   ]
   # }
+
+  provisioner "remote-exec" {
+    inline = [
+      "chmod +x /home/${var.user}/get-worker-ssh-config.sh",
+#      "sudo /home/${var.user}/get-worker-ssh-config.sh | tee ssh-config-workers",
+    ]
+  }
+
+  provisioner "file" {
+    source      = "setup-grafana.sh"
+    destination = "/home/${var.user}/setup-grafana.sh"
+  }
+  provisioner "remote-exec" {
+    inline = [
+      "chmod +x /home/${var.user}/setup-grafana.sh"
+    ]
+  }
 
 }
