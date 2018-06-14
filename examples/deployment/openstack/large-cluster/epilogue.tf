@@ -80,28 +80,28 @@ EOF
   echo "  IdentityFile          ${var.bastion_key_file}"
   echo "  UserKnownHostsFile    /dev/null"
   echo "  "
-  echo "Host ${var.bastion_host_name}"
+  echo "Host ${var.bastion_host_ip}"
   echo "  HostName              ${var.bastion_host_ip}"
   echo "  "
   echo "Host salt-master"
   echo "  HostName  ${openstack_compute_instance_v2.salt-master.access_ip_v4}"
-  echo "  ProxyCommand ssh ${var.bastion_host_name} -W %h:%p"
+  echo "  ProxyCommand ssh ${var.bastion_host_ip} -W %h:%p"
   echo " "
   echo "Host db-master"
   echo "  HostName  ${openstack_compute_instance_v2.db-server.access_ip_v4}"
-  echo "  ProxyCommand ssh ${var.bastion_host_name} -W %h:%p"
+  echo "  ProxyCommand ssh ${var.bastion_host_ip} -W %h:%p"
   echo " "
   echo "Host tracker"
   echo "  HostName  ${openstack_compute_instance_v2.tracker.access_ip_v4}"
-  echo "  ProxyCommand ssh ${var.bastion_host_name} -W %h:%p"
+  echo "  ProxyCommand ssh ${var.bastion_host_ip} -W %h:%p"
   echo " "
   echo "Host job-queue"
   echo "  HostName  ${openstack_compute_instance_v2.job-queue.access_ip_v4}"
-  echo "  ProxyCommand ssh ${var.bastion_host_name} -W %h:%p"
+  echo "  ProxyCommand ssh ${var.bastion_host_ip} -W %h:%p"
   echo " "
   echo "Host worker-0"
   echo "  HostName  ${openstack_compute_instance_v2.worker.0.access_ip_v4}"
-  echo "  ProxyCommand ssh ${var.bastion_host_name} -W %h:%p"
+  echo "  ProxyCommand ssh ${var.bastion_host_ip} -W %h:%p"
 ) | tee ssh-config
 
 EOF
@@ -137,11 +137,11 @@ resource "null_resource" "epilogue-salt-setup" {
     destination = "/home/${var.user}/salt-epilogue.sh"
   }
 
-#  provisioner "remote-exec" {
-#    inline = [
-#      "chmod +x /home/${var.user}/*.sh",
+  provisioner "remote-exec" {
+    inline = [
+      "chmod +x /home/${var.user}/*.sh",
 #      "sudo /home/${var.user}/salt-epilogue.sh"
-#    ]
-#  }
+    ]
+  }
 
 }
