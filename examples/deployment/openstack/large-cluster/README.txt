@@ -125,3 +125,10 @@ ssc salt-master sudo ./get-worker-ssh-config.sh 2>/dev/null | tee -a ssh-config
 For large clusters:
 - make sure 'agent' is set to 'false'
 > terraform apply --parallelism=20 --auto-approve
+
+-------------
+Salt:
+- kick a minion into the desired state: On the minion...
+> salt-call state.apply
+
+

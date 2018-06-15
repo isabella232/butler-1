@@ -97,8 +97,10 @@ EOF
   echo "Host worker-0"
   echo "  HostName ${openstack_compute_instance_v2.worker.0.access_ip_v4}"
   echo "  ProxyCommand ssh -i ${var.bastion_key_file} ${var.bastion_user}@${var.bastion_host_ip} -W %h:%p"
+  echo " "
 ) | tee ssh-config
 
+  terraform output worker_ips | tr -d ',' | sed -e 's%^ *%%' -e 's%^HostName%  HostName%' -e 's%ProxyCommand here%  ProxyCommand ssh -i ${var.bastion_key_file} ${var.bastion_user}@${var.bastion_host_ip} -W \%h:\%p%' | sed -e 's%${var.namespace}-%%' | tee -a ssh-config
 EOF
   }
 
