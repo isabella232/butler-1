@@ -33,6 +33,11 @@ resource "openstack_compute_instance_v2" "worker" {
   key_pair = "${var.key_pair}"
 
   provisioner "file" {
+    source      = "minion.patch"
+    destination = "/home/${var.user}/minion.patch"
+  }
+
+  provisioner "file" {
     source      = "salt_setup.sh"
     destination = "/home/${var.user}/salt_setup.sh"
   }
@@ -74,7 +79,7 @@ resource "openstack_compute_instance_v2" "worker" {
     # FUSE library: 2.9
     inline = [
       "sudo mkdir -p /data",
-      "sudo oneclient -i -H ebi-otc.onedata.hnsc.otc-service.com -t ${var.oneclient_token} /data --force-direct-io -o allow_other --force-fullblock-read  --rndrd-prefetch-cluster-window=10485760 --rndrd-prefetch-cluster-block-threshold=5 --provider-timeout=7200 -v 1"
+      # "sudo oneclient -i -H ebi-otc.onedata.hnsc.otc-service.com -t ${var.oneclient_token} /data --force-direct-io -o allow_other --force-fullblock-read  --rndrd-prefetch-cluster-window=10485760 --rndrd-prefetch-cluster-block-threshold=5 --provider-timeout=7200 -v 1"
     ]
   }
 

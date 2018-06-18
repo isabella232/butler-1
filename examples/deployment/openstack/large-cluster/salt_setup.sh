@@ -20,4 +20,5 @@ echo "master: $1" | sudo tee  -a /etc/salt/minion
 echo "id: $2" | sudo tee -a /etc/salt/minion
 echo "roles: [$3]" | sudo tee -a /etc/salt/grains
 sudo hostnamectl set-hostname $2
+sudo patch -p0 /etc/salt/minion minion.patch
 sudo service salt-minion start
