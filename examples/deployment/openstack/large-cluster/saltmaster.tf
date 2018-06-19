@@ -31,6 +31,11 @@ resource "openstack_compute_instance_v2" "salt-master" {
   key_pair = "${var.key_pair}"
 
   provisioner "file" {
+    source      = "minion.patch"
+    destination = "/home/${var.user}/minion.patch"
+  }
+
+  provisioner "file" {
     source      = "./master"
     destination = "/home/${var.user}/master"
   }
@@ -88,7 +93,7 @@ resource "openstack_compute_instance_v2" "salt-master" {
   #
   # This doesn't work because I don't know how to pull the output back to the local machine
   #
-  # Could use 'terraform output public_ips' and wobble the output...?
+  # Could use 'terraform output worker_ips' and wobble the output...?
   #
   # provisioner "remote-exec" {
   #   inline = [

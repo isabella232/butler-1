@@ -58,11 +58,3 @@
  #
  # Each minion will have a randomized reconnect value between 'recon_default'
  # and 'recon_default + recon_max', which in this example means between 1000ms
-@@ -394,6 +403,7 @@
- # connection events.
- #
- #master_alive_interval: 30
-+master_alive_interval: 90
- 
- # The minion can include configuration from other files. To enable this,
- # pass a list of paths to this option. The paths can be either relative or

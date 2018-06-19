@@ -132,4 +132,11 @@ Salt:
 - kick a minion into the desired state: On the minion...
 > salt-call state.apply
 
+-------------
+- post-install, the remaining setup items are:
+  - the ssh-config, which relies on 'terraaform output', which can't run until _after_ the end
+  - mounting the onedata volume
+  - unzipping the reference data
+  - starting grafana
+  - setting up the analysis json files
 
