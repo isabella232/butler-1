@@ -90,23 +90,16 @@ resource "openstack_compute_instance_v2" "salt-master" {
     destination = "/home/${var.user}/get-worker-ssh-config.sh"
   }
 
-  #
-  # This doesn't work because I don't know how to pull the output back to the local machine
-  #
-  # Could use 'terraform output worker_ips' and wobble the output...?
-  #
-  # provisioner "remote-exec" {
-  #   inline = [
-  #     "chmod +x /home/${var.user}/get-worker-ssh-config.sh",
-  #     "sudo /home/${var.user}/get-worker-ssh-config.sh | tee ssh-config-workers",
-  #   ]
-  # }
-
   provisioner "remote-exec" {
     inline = [
       "chmod +x /home/${var.user}/get-worker-ssh-config.sh",
-#      "sudo /home/${var.user}/get-worker-ssh-config.sh | tee ssh-config-workers",
+      "sudo /home/${var.user}/get-worker-ssh-config.sh ${var.bastion_host_ip} ${var.bastion_key_file} ${var.bastion_user} | tee ssh-config-workers",
     ]
+  }
+
+  provisioner "file" {
+    source      = "${var.bastion_key_file}"
+    destination = "/home/${var.user}/.ssh/"
   }
 
   provisioner "file" {
