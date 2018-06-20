@@ -39,6 +39,11 @@ resource "openstack_compute_instance_v2" "tracker" {
   }
 
   provisioner "file" {
+    source      = "run-freebayes.sh"
+    destination = "/home/${var.user}/run-freebayes.sh"
+  }
+
+  provisioner "file" {
     source      = "salt_setup.sh"
     destination = "/home/${var.user}/salt_setup.sh"
   }
