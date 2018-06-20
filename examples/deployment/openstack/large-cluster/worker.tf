@@ -79,7 +79,23 @@ resource "openstack_compute_instance_v2" "worker" {
     # FUSE library: 2.9
     inline = [
       "sudo mkdir -p /data",
-      # "sudo oneclient -i -H ebi-otc.onedata.hnsc.otc-service.com -t ${var.oneclient_token} /data --force-direct-io -o allow_other --force-fullblock-read  --rndrd-prefetch-cluster-window=10485760 --rndrd-prefetch-cluster-block-threshold=5 --provider-timeout=7200 -v 1"
+      # "sudo oneclient -i -H ebi-otc.onedata.hnsc.otc-service.com -t ${var.oneclient_token} /data --force-direct-io -o allow_other --force-fullblock-read  --rndrd-prefetch-cluster-window=10485760 --rndrd-prefetch-cluster-block-threshold=5 --provider-timeout=7200 -v 1",
+      "echo '#!/bin/bash' | tee /home/linux/mount-oneclient.sh",
+      "echo sudo oneclient -i -H ebi-otc.onedata.hnsc.otc-service.com -t ${var.oneclient_token} /data --force-direct-io -o allow_other --force-fullblock-read  --rndrd-prefetch-cluster-window=10485760 --rndrd-prefetch-cluster-block-threshold=5 --provider-timeout=7200 -v 1 | tee -a /home/linux/mount-oneclient.sh",
+      "chmod +x mount-oneclient.sh"
+    ]
+  }
+
+  #
+  # This sets the reference genome to the complete reference genome, available via the oneclient mount
+  provisioner "file" {
+    source      = "set-freebayes-reference-genome.sh"
+    destination = "/home/${var.user}/set-freebayes-reference-genome.sh"
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "chmod +x /home/${var.user}/set-freebayes-reference-genome.sh",
     ]
   }
 
