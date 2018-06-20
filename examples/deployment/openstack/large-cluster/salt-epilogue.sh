@@ -7,8 +7,11 @@ sudo salt-run state.orchestrate butler.deploy 2>&1 | tee salt.butler.deploy.log
 sudo ./setup-grafana.sh && /usr/bin/true # Finesse the errors
 
 sudo salt 'worker-*' cmd.run 'sudo /home/linux/mount-oneclient.sh'
-
-refdata=/opt/butler/examples/data/ref
+sudo salt 'worker-*' cmd.run 'sudo /home/linux/set-freebayes-reference-genome.sh'
+#
+# Don't need the following if the reference genome was set correctly above...
+#
+# refdata=/opt/butler/examples/data/ref
 # sudo salt 'worker-*' cmd.run "sudo tar --directory $refdata -xvf $refdata/human_g1k_v37.20.fasta.tar.gz"
 
 analysis=/opt/butler/examples/analyses/freebayes-discovery
