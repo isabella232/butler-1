@@ -134,9 +134,22 @@ Salt:
 
 -------------
 - post-install, the remaining setup items are:
-  - the ssh-config, which relies on 'terraaform output', which can't run until _after_ the end
-  - mounting the onedata volume
-  - unzipping the reference data
-  - starting grafana
-  - setting up the analysis json files
+  - Build the ssh-config file for the bastion and salt-master
+    - on salt-master, run the get-worker-ssh-config.sh script
+    - on t-bastion, scp the ~/.ssh/config file back
 
+  - Mount the onedata volume
+    - *** Check worker.tf, see if it can be mounted automatically? ***
+    - from salt-master, run mount-oneclient.sh on workers
+    - salt-epilogue.sh has code for this, needs testing...
+
+  - From salt-master, run set-freebayes-reference-genome.sh on the workers, to use the full reference genome
+    - or, unzip the reference data in /opt/butler/examples/data/ref, unless you do the above
+    - salt-epilogue.sh has code for this, needs testing...
+
+  - Set up the analysis json files
+    - on tracker, cd /opt/butler/examples/analyses/freebayes-discovery; mv run-config{,.sav}; tar xf run-config.tgz
+    - salt-epilogue.sh has code for this, needs testing...
+
+  - Launch the analysis!
+    - on tracker: execute run-freebayes.sh
