@@ -46,6 +46,8 @@ resource "openstack_compute_instance_v2" "worker" {
     inline = [
       "chmod +x /home/${var.user}/salt_setup.sh",
       "/home/${var.user}/salt_setup.sh ${null_resource.masterip.triggers.address} worker-${count.index} \"worker, consul-client\"",
+      "salt-call state.apply biotools.freebayes",
+#      "salt-call state.apply butler.deploy",
     ]
   }
 
@@ -55,7 +57,6 @@ resource "openstack_compute_instance_v2" "worker" {
     source      = "sshd-fix.sh"
     destination = "/home/${var.user}/sshd-fix.sh"
   }
-
   provisioner "remote-exec" {
     inline = [
       "chmod +x /home/${var.user}/sshd-fix.sh",

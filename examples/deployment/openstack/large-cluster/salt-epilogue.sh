@@ -2,7 +2,7 @@
 
 set -ex
 sudo salt-run mine.update '*'                 2>&1 | tee salt.mine.update.log
-sudo salt-run state.orchestrate butler.deploy 2>&1 | tee salt.butler.deploy.log
+#sudo salt-run state.orchestrate butler.deploy 2>&1 | tee salt.butler.deploy.log
 
 # sudo ./setup-grafana.sh && /usr/bin/true # Finesse the errors
 
@@ -16,6 +16,10 @@ sudo salt-run state.orchestrate butler.deploy 2>&1 | tee salt.butler.deploy.log
 #
 # refdata=/opt/butler/examples/data/ref
 # sudo salt 'worker-*' cmd.run "sudo tar --directory $refdata -xvf $refdata/human_g1k_v37.20.fasta.tar.gz"
+
+#
+# For some reason, seem to need this now...
+# sudo salt 'worker-*' state.apply biotools.freebayes
 
 #
 # Set up the large-scale tests
