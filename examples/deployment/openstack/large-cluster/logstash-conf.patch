@@ -1,0 +1,23 @@
+--- /tmp/config.json.sav	2018-06-22 09:39:58.058182847 +0000
++++ config.json	2018-06-22 09:41:05.010459638 +0000
+@@ -6,11 +6,11 @@
+ filter {
+   if [type] == "syslog" {
+     grok {
+-      pattern => "%{SYSLOGBASE}"
++      match => ["message", "%{SYSLOGBASE}"] 
+     }
+   } else if [type] == "postgres" {
+     grok {
+-      pattern => "%{POSTGRESQL}"
++      match => ["message", "%{POSTGRESQL}"] 
+     }
+   }  
+     
+@@ -23,4 +23,4 @@
+     index => "%{[@metadata][beat]}-%{+YYYY.MM.dd}"
+     document_type => "%{[@metadata][type]}"
+   }
+-}
+\ No newline at end of file
++}
