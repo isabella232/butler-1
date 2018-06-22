@@ -19,11 +19,11 @@ variable "auth_url" {
 
 
 variable "availability_zone" {
-        default=""
+        default="eu-de-01"
 }
 
 variable "otc_secgroup" {
-  default = ""
+  default = "odt-sec"
 }
 
 variable "disk_size_gb" { 
