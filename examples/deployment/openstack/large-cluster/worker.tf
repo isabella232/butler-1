@@ -63,26 +63,14 @@ resource "openstack_compute_instance_v2" "worker" {
     ]
   }
 
-  provisioner "remote-exec" {
-    #
-    # This sets up the oneclient mount-point
-    inline = [
-      "curl -sS -o oneclient.sh http://get.onedata.org/oneclient.sh",
-      "chmod +x oneclient.sh",
-      "sudo ./oneclient.sh"
-    ]
+  provisioner "file" {
+    source      = "mount-oneclient.sh"
+    destination = "/home/${var.user}/mount-oneclient.sh"
   }
   provisioner "remote-exec" {
-    #
-    # These options are valid for:
-    # Oneclient: 18.02.0-rc5
-    # FUSE library: 2.9
     inline = [
-      "sudo mkdir -p /data",
-      # "sudo oneclient -i -H ebi-otc.onedata.hnsc.otc-service.com -t ${var.oneclient_token} /data --force-direct-io -o allow_other --force-fullblock-read  --rndrd-prefetch-cluster-window=10485760 --rndrd-prefetch-cluster-block-threshold=5 --provider-timeout=7200 -v 1",
-      "echo '#!/bin/bash' | tee /home/linux/mount-oneclient.sh",
-      "echo sudo oneclient -i -H ebi-otc.onedata.hnsc.otc-service.com -t ${var.oneclient_token} /data --force-direct-io -o allow_other --force-fullblock-read  --rndrd-prefetch-cluster-window=10485760 --rndrd-prefetch-cluster-block-threshold=5 --provider-timeout=7200 -v 1 | tee -a /home/linux/mount-oneclient.sh",
-      "chmod +x mount-oneclient.sh"
+      "chmod +x /home/${var.user}/mount-oneclient.sh",
+      "/home/${var.user}/mount-oneclient.sh ${var.oneclient_token}"
     ]
   }
 
@@ -94,6 +82,7 @@ resource "openstack_compute_instance_v2" "worker" {
   }
 
   provisioner "remote-exec" {
+    # Don't execute yet, the reference directory isn't there until butler is installed
     inline = [
       "chmod +x /home/${var.user}/set-freebayes-reference-genome.sh",
     ]
