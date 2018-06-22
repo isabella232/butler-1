@@ -9,7 +9,7 @@ sudo systemctl stop firewalld
 
 set -ex
 sudo yum install epel-release -y
-#sudo yum -y update
+sudo yum -y update
 sudo yum install wget yum-plugin-priorities -y
 sudo yum install -y https://repo.saltstack.com/yum/redhat/salt-repo-latest-2.el7.noarch.rpm
 sudo yum clean expire-cache
