@@ -1,0 +1,60 @@
+--- minion.sav	2018-06-18 08:51:17.610263149 +0000
++++ minion	2018-06-18 09:10:09.689745182 +0000
+@@ -47,6 +47,7 @@
+ # set the value to -1. (This may be necessary on machines which have high numbers
+ # of TCP connections, such as load balancers.)
+ # master_alive_interval: 30
++master_alive_interval: -1
+ 
+ # If the minion is in multi-master mode and the master_type configuration option
+ # is set to "failover", this setting can be set to "True" to force the minion
+@@ -180,6 +181,7 @@
+ # continuously attempt to reconnect until successful. This is the time, in
+ # seconds, between those reconnection attempts.
+ #acceptance_wait_time: 10
++acceptance_wait_time: 7
+ 
+ # If this is nonzero, the time between reconnection attempts will increase by
+ # acceptance_wait_time seconds per iteration, up to this maximum. If this is
+@@ -189,6 +191,7 @@
+ # If the master rejects the minion's public key, retry instead of exiting.
+ # Rejected keys will be handled the same as waiting on acceptance.
+ #rejected_retry: False
++rejected_retry: True
+ 
+ # When the master key changes, the minion will try to re-auth itself to receive
+ # the new master key. In larger environments this can cause a SYN flood on the
+@@ -196,6 +199,7 @@
+ # have a minion wait for a random amount of time, use this optional parameter.
+ # The wait-time will be a random number of seconds between 0 and the defined value.
+ #random_reauth_delay: 60
++random_reauth_delay: 60
+ 
+ 
+ # To avoid overloading a master when many minions startup at once, a randomized
+@@ -205,6 +209,7 @@
+ # on startup between zero seconds and sixty seconds. Setting to '0' will disable
+ # this feature.
+ #random_startup_delay: 0
++random_startup_delay: 30
+ 
+ # When waiting for a master to accept the minion's public key, salt will
+ # continuously attempt to reconnect until successful. This is the timeout value,
+@@ -216,6 +221,7 @@
+ # Number of consecutive SaltReqTimeoutError that are acceptable when trying to
+ # authenticate.
+ #auth_tries: 7
++auth_tries: 99
+ 
+ # The number of attempts to connect to a master before giving up.
+ # Set this to -1 for unlimited attempts. This allows for a master to have
+@@ -284,6 +290,9 @@
+ # recon_default: 1000
+ # recon_max: 59000
+ # recon_randomize: True
++recon_default: 100
++recon_max: 119000
++recon_randomize: True
+ #
+ # Each minion will have a randomized reconnect value between 'recon_default'
+ # and 'recon_default + recon_max', which in this example means between 1000ms
