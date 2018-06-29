@@ -32,10 +32,10 @@ resource "openstack_compute_instance_v2" "tracker" {
 
   key_pair = "${var.key_pair}"
 
-  provisioner "file" {
-    source      = "minion.patch"
-    destination = "/home/${var.user}/minion.patch"
-  }
+#  provisioner "file" {
+#    source      = "minion.patch"
+#    destination = "/home/${var.user}/minion.patch"
+#  }
 
   provisioner "file" {
     source      = "run-freebayes.sh"

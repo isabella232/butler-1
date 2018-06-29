@@ -29,20 +29,20 @@ resource "openstack_compute_instance_v2" "salt-master" {
 
   key_pair = "${var.key_pair}"
 
-  provisioner "file" {
-    source      = "${var.bastion_key_file}"
-    destination = "/home/${var.user}/.ssh/"
-  }
+#  provisioner "file" {
+#    source      = "${var.bastion_key_file}"
+#    destination = "/home/${var.user}/.ssh/"
+#  }
 
-  provisioner "file" {
-    source      = "minion.patch"
-    destination = "/home/${var.user}/minion.patch"
-  }
-
-  provisioner "file" {
-    source      = "./master"
-    destination = "/home/${var.user}/master"
-  }
+#  provisioner "file" {
+#    source      = "minion.patch"
+#    destination = "/home/${var.user}/minion.patch"
+#  }
+#
+#  provisioner "file" {
+#    source      = "./master"
+#    destination = "/home/${var.user}/master"
+#  }
 
   provisioner "file" {
     source      = "salt-setup.sh"
@@ -58,31 +58,31 @@ resource "openstack_compute_instance_v2" "salt-master" {
 
   provisioner "remote-exec" {
     inline = [
-      "sudo yum install git -y",
-      "sudo yum install python-pip -y",
+#      "sudo yum install git -y",
+#      "sudo yum install python-pip -y",
       "sudo yum install salt-master -y",
-      "sudo yum install salt-minion -y",
-      "sudo yum install python-pygit2 -y",
-      "sudo service salt-master stop",
+#      "sudo yum install salt-minion -y",
+#      "sudo yum install python-pygit2 -y",
+#      "sudo service salt-master stop",
       "sudo mv /home/${var.user}/master /etc/salt/master",
-      "sudo service salt-master start",
       "sudo hostname salt-master",
+      "sudo service salt-master start",
     ]
   }
 
+##
+## This is for T-Systems, where SSH port forwarding is disabled by default
+#  provisioner "file" {
+#    source      = "sshd-fix.sh"
+#    destination = "/home/${var.user}/sshd-fix.sh"
+#   }
 #
-# This is for T-Systems, where SSH port forwarding is disabled by default
-  provisioner "file" {
-    source      = "sshd-fix.sh"
-    destination = "/home/${var.user}/sshd-fix.sh"
-  }
-
-  provisioner "remote-exec" {
-    inline = [
-      "chmod +x /home/${var.user}/sshd-fix.sh",
-      "sudo /home/${var.user}/sshd-fix.sh",
-    ]
-  }
+#  provisioner "remote-exec" {
+#    inline = [
+#      "chmod +x /home/${var.user}/sshd-fix.sh",
+#      "sudo /home/${var.user}/sshd-fix.sh",
+#    ]
+#  }
 
 #
 # This is trying to get the IP of all the workers, to configure the SSH config file.

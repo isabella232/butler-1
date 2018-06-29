@@ -25,18 +25,18 @@ resource "openstack_compute_instance_v2" "db-server" {
   connection {
     user                = "${var.user}"
     private_key         = "${file(var.key_file)}"
-    bastion_private_key = "${file(var.key_file)}"
-    bastion_host        = "${var.bastion_host_ip}"
-    bastion_user        = "${var.bastion_user}"
+#    bastion_private_key = "${file(var.key_file)}"
+#    bastion_host        = "${var.bastion_host_ip}"
+#    bastion_user        = "${var.bastion_user}"
     agent               = false
   }
 
   key_pair = "${var.key_pair}"
 
-  provisioner "file" {
-    source      = "minion.patch"
-    destination = "/home/${var.user}/minion.patch"
-  }
+#  provisioner "file" {
+#    source      = "minion.patch"
+#    destination = "/home/${var.user}/minion.patch"
+#  }
 
   provisioner "file" {
     source      = "salt-setup.sh"

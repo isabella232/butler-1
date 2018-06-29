@@ -99,16 +99,13 @@ EOF
   echo "  ProxyCommand ssh -i ${var.bastion_key_file} ${var.bastion_user}@${var.bastion_host_ip} -W %h:%p"
   echo " "
 ) | tee ssh-config
-
-#
-# This works, but not until _after_ terraform runs :(
-#  terraform output worker_ips | tr -d ',' | sed -e 's%^ *%%' -e 's%^HostName%  HostName%' -e 's%ProxyCommand here%  ProxyCommand ssh -i ${var.bastion_key_file} ${var.bastion_user}@${var.bastion_host_ip} -W \%h:\%p%' | sed -e 's%${var.namespace}-%%' | tee -a ssh-config
 EOF
   }
 
 }
 
-resource "null_resource" "epilogue-salt-setup" {
+resource "null_resource" "post-salt-setup" {
+# Do this for every set of workers I bring up
   depends_on = [
                   "openstack_compute_instance_v2.db-server",
                   "openstack_compute_instance_v2.job-queue",
@@ -125,9 +122,42 @@ resource "null_resource" "epilogue-salt-setup" {
     user = "${var.user}"
     host = "${openstack_compute_instance_v2.salt-master.access_ip_v4}"
     private_key = "${file(var.key_file)}"
-    bastion_private_key = "${file(var.bastion_key_file)}"
-    bastion_host = "${var.bastion_host_ip}"
-    bastion_user = "${var.bastion_user}"
+#    bastion_private_key = "${file(var.bastion_key_file)}"
+#    bastion_host = "${var.bastion_host_ip}"
+#    bastion_user = "${var.bastion_user}"
+    agent = false
+  }
+
+  provisioner "file" {
+    source      = "salt-post.sh"
+    destination = "/home/${var.user}/salt-post.sh"
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "chmod +x /home/${var.user}/salt-post.sh",
+      "sudo /home/${var.user}/salt-post.sh"
+    ]
+  }
+
+
+resource "null_resource" "epilogue-salt-setup" {
+# This is a one-off, even if I bring up more workers later I won't need to repeat this...
+  depends_on = [
+                  "openstack_compute_instance_v2.db-server",
+                  "openstack_compute_instance_v2.job-queue",
+                  "openstack_compute_instance_v2.salt-master",
+                  "openstack_compute_instance_v2.tracker",
+                  "openstack_compute_instance_v2.worker"
+               ]
+
+  connection {
+    user = "${var.user}"
+    host = "${openstack_compute_instance_v2.salt-master.access_ip_v4}"
+    private_key = "${file(var.key_file)}"
+#    bastion_private_key = "${file(var.bastion_key_file)}"
+#    bastion_host = "${var.bastion_host_ip}"
+#    bastion_user = "${var.bastion_user}"
     agent = false
   }
 
@@ -138,7 +168,7 @@ resource "null_resource" "epilogue-salt-setup" {
 
   provisioner "remote-exec" {
     inline = [
-      "chmod +x /home/${var.user}/*.sh",
+      "chmod +x /home/${var.user}/salt-epilogue.sh",
       "sudo /home/${var.user}/salt-epilogue.sh"
     ]
   }

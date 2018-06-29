@@ -1,0 +1,10 @@
+--- dracut.conf.sav	2018-06-26 12:17:09.833934000 +0000
++++ dracut.conf	2018-06-26 12:18:42.846185348 +0000
+@@ -20,6 +20,7 @@
+ 
+ # additional kernel modules to the default
+ #add_drivers+=""
++add_drivers+="xen-blkfront xen-netfront virtio_blk virtio_scsi virtio_net virtio_pci virtio_ring virtio"
+ 
+ # list of kernel filesystem modules to be included in the generic initramfs
+ #filesystems+=""

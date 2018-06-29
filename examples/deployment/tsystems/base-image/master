@@ -1,0 +1,37 @@
+# auto accept minion keys (UNSAFE)
+auto_accept: True
+
+# set output to detailed on failure
+state_output: mixed
+
+#set remote states and pillars
+fileserver_backend:
+  - roots
+  - git
+
+file_roots:
+  base:
+    - /srv/salt/base
+  rhea-otc:
+    - /srv/salt/otc
+
+gitfs_provider: pygit2
+gitfs_remotes:
+  - git://github.com/EMBL-EBI-TSI/butler:
+    - root: configuration/salt/state
+    - base: master
+
+pillar_roots:
+  base:
+    - /srv/pillar
+  rhea-otc:
+    - /srv/pillar
+
+top_file_merging_strategy: same
+default_top: base
+
+ext_pillar:
+  - git:
+    - master git://github.com/EMBL-EBI-TSI/butler:
+      - root: configuration/salt/pillar
+      - env: base

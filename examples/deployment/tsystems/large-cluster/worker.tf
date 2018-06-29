@@ -27,19 +27,19 @@ resource "openstack_compute_instance_v2" "worker" {
   connection {
     user                = "${var.user}"
     private_key         = "${file(var.key_file)}"
-    bastion_private_key = "${file(var.bastion_key_file)}"
-    bastion_host        = "${var.bastion_host_ip}"
-    bastion_user        = "${var.bastion_user}"
+#    bastion_private_key = "${file(var.bastion_key_file)}"
+#    bastion_host        = "${var.bastion_host_ip}"
+#    bastion_user        = "${var.bastion_user}"
     agent               = false
   }
 
   count    = "${var.worker_count}"
   key_pair = "${var.key_pair}"
 
-  provisioner "file" {
-    source      = "minion.patch"
-    destination = "/home/${var.user}/minion.patch"
-  }
+#  provisioner "file" {
+#    source      = "minion.patch"
+#    destination = "/home/${var.user}/minion.patch"
+#  }
 
   provisioner "file" {
     source      = "salt-setup.sh"
@@ -55,18 +55,18 @@ resource "openstack_compute_instance_v2" "worker" {
     ]
   }
 
-  provisioner "file" {
-    #
-    # This is for T-Systems, where SSH port forwarding is disabled by default
-    source      = "sshd-fix.sh"
-    destination = "/home/${var.user}/sshd-fix.sh"
-  }
-  provisioner "remote-exec" {
-    inline = [
-      "chmod +x /home/${var.user}/sshd-fix.sh",
-      "sudo /home/${var.user}/sshd-fix.sh"
-    ]
-  }
+#  provisioner "file" {
+#    #
+#    # This is for T-Systems, where SSH port forwarding is disabled by default
+#    source      = "sshd-fix.sh"
+#    destination = "/home/${var.user}/sshd-fix.sh"
+#  }
+#  provisioner "remote-exec" {
+#    inline = [
+#      "chmod +x /home/${var.user}/sshd-fix.sh",
+#      "sudo /home/${var.user}/sshd-fix.sh"
+#    ]
+#  }
 
   provisioner "file" {
     source      = "mount-oneclient.sh"
