@@ -140,6 +140,7 @@ resource "null_resource" "post-salt-setup" {
     ]
   }
 
+}
 
 resource "null_resource" "epilogue-salt-setup" {
 # This is a one-off, even if I bring up more workers later I won't need to repeat this...
