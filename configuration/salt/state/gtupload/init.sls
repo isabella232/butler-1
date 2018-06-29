@@ -1,7 +1,7 @@
 gtupload-clone:
   git.latest:
     - force_reset: True
-    - name: git://github.com/llevar/gtupload-centos-binary.git
+    - name: git://github.com/EMBL-EBI-TSI/gtupload-centos-binary.git
     - target: /tmp/gtupload-centos-binary
     - submodules: True
 
