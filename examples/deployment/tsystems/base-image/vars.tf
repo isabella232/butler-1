@@ -61,35 +61,10 @@ variable "floatingip_pool" {
   default = "ext-net"
 }
 
-variable "worker_count" {
-  default = "1"
-}
-
-variable "salt_master_flavor" {
-  default = "s1.massive"
-}
-
-variable "worker_flavor" {
-  default = "s1.massive"
-}
-
-variable "db_server_flavor" {
-  default = "s1.massive"
-}
-
-variable "job_queue_flavor" {
-  default = "s1.massive"
-}
-
-variable "tracker_flavor" {
-  default = "s1.massive"
+variable "base_image_flavour" {
+  default = "s1.large"
 }
 
 variable "main_security_group_name" {
   default = "default"
 }
-
-variable "oneclient_token" {
-  default = ""
-}
-
