@@ -5,6 +5,7 @@ sudo salt-key --accept-all --yes
 sudo salt-run mine.update '*'
 sudo salt 'worker-*' cmd.run '/bin/rm -rf /opt/butler/configuration/salt/state/biotools'
 sudo salt-run state.orchestrate butler.deploy
+/bin/true # fudge the return :(
 
 # sudo ./setup-grafana.sh
 # 

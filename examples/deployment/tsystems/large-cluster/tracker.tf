@@ -41,6 +41,11 @@ resource "openstack_compute_instance_v2" "tracker" {
     source      = "run-freebayes.sh"
     destination = "/home/${var.user}/run-freebayes.sh"
   }
+  provisioner "remote-exec" {
+    inline = [
+      "chmod +x /home/${var.user}/run-freebayes.sh",
+    ]
+  }
 
   provisioner "file" {
     source      = "salt-setup.sh"
