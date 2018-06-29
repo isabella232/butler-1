@@ -11,5 +11,4 @@ make
 make install
 ln -s /usr{/local,}/bin/freebayes
 ln -s /usr{/local,}/bin/bamleftalign
-ln -s /opt/freebayes/freebayes/SeqLib/htslib/tabix /usr/bin
-ln -s /opt/freebayes/freebayes/SeqLib/htslib/bgzip /usr/bin
+ln -s /opt/freebayes/freebayes/SeqLib/htslib/{tabix,bgzip,htsfile} /usr/bin
