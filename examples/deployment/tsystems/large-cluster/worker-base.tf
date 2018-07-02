@@ -36,11 +36,6 @@ resource "openstack_compute_instance_v2" "worker" {
   count    = "${var.worker_count}"
   key_pair = "${var.key_pair}"
 
-#  provisioner "file" {
-#    source      = "minion.patch"
-#    destination = "/home/${var.user}/minion.patch"
-#  }
-
   provisioner "file" {
     source      = "salt-setup.sh"
     destination = "/home/${var.user}/salt-setup.sh"
@@ -49,24 +44,9 @@ resource "openstack_compute_instance_v2" "worker" {
   provisioner "remote-exec" {
     inline = [
       "chmod +x /home/${var.user}/salt-setup.sh",
-      "/home/${var.user}/salt-setup.sh ${null_resource.masterip.triggers.address} worker-${count.index} \"worker, consul-client\"",
-#      "sudo salt-call state.apply biotools.freebayes",
-#      "salt-call state.apply butler.deploy",
+#      "/home/${var.user}/salt-setup.sh ${null_resource.masterip.triggers.address} worker-${count.index} \"worker, consul-client\"",
     ]
   }
-
-#  provisioner "file" {
-#    #
-#    # This is for T-Systems, where SSH port forwarding is disabled by default
-#    source      = "sshd-fix.sh"
-#    destination = "/home/${var.user}/sshd-fix.sh"
-#  }
-#  provisioner "remote-exec" {
-#    inline = [
-#      "chmod +x /home/${var.user}/sshd-fix.sh",
-#      "sudo /home/${var.user}/sshd-fix.sh"
-#    ]
-#  }
 
   provisioner "file" {
     source      = "mount-oneclient.sh"
@@ -89,7 +69,7 @@ resource "openstack_compute_instance_v2" "worker" {
   provisioner "remote-exec" {
     # Don't execute yet, the reference directory isn't there until butler is installed
     inline = [
-      "chmod +x /home/${var.user}/set-freebayes-reference-genome.sh",
+#      "chmod +x /home/${var.user}/set-freebayes-reference-genome.sh",
     ]
   }
 

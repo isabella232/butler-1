@@ -9,7 +9,6 @@ resource "openstack_compute_instance_v2" "tracker" {
 
   network = {
     uuid = "${var.main_network_uuid}"
-    #name = "${var.main_network_name}"
   }
 
   block_device {
@@ -32,11 +31,6 @@ resource "openstack_compute_instance_v2" "tracker" {
 
   key_pair = "${var.key_pair}"
 
-#  provisioner "file" {
-#    source      = "minion.patch"
-#    destination = "/home/${var.user}/minion.patch"
-#  }
-
   provisioner "file" {
     source      = "run-freebayes.sh"
     destination = "/home/${var.user}/run-freebayes.sh"
@@ -55,7 +49,7 @@ resource "openstack_compute_instance_v2" "tracker" {
   provisioner "remote-exec" {
     inline = [
       "chmod +x /home/${var.user}/salt-setup.sh",
-      "/home/${var.user}/salt-setup.sh ${null_resource.masterip.triggers.address} tracker \"tracker, consul-server\"",
+#      "/home/${var.user}/salt-setup.sh ${null_resource.masterip.triggers.address} tracker \"tracker, consul-server\"",
     ]
   }
 }

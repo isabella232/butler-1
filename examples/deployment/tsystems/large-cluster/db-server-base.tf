@@ -1,11 +1,10 @@
-resource "openstack_compute_instance_v2" "job-queue" {
+resource "openstack_compute_instance_v2" "db-server" {
   depends_on = ["openstack_compute_instance_v2.salt-master"]
 
   availability_zone = "${var.availability_zone}"
-#  image_id        = "${var.image_id}"
-  flavor_name     = "${var.job_queue_flavor}"
+  flavor_name     = "${var.db_server_flavor}"
   security_groups = ["${openstack_compute_secgroup_v2.allow-traffic.name}", "${var.main_security_group_name}"]
-  name            = "${var.namespace}-job-queue"
+  name            = "${var.namespace}-db-server"
   availability_zone = "${var.availability_zone}"
 
   block_device {
@@ -19,7 +18,6 @@ resource "openstack_compute_instance_v2" "job-queue" {
 
   network = {
     uuid = "${var.main_network_uuid}"
-   # name = "${var.main_network_name}"
   }
 
   connection {
@@ -33,11 +31,6 @@ resource "openstack_compute_instance_v2" "job-queue" {
 
   key_pair = "${var.key_pair}"
 
-#  provisioner "file" {
-#    source      = "minion.patch"
-#    destination = "/home/${var.user}/minion.patch"
-#  }
-
   provisioner "file" {
     source      = "salt-setup.sh"
     destination = "/home/${var.user}/salt-setup.sh"
@@ -46,7 +39,7 @@ resource "openstack_compute_instance_v2" "job-queue" {
   provisioner "remote-exec" {
     inline = [
       "chmod +x /home/${var.user}/salt-setup.sh",
-      "/home/${var.user}/salt-setup.sh ${null_resource.masterip.triggers.address} job-queue \"job-queue, consul-client\"",
+#      "/home/${var.user}/salt-setup.sh ${null_resource.masterip.triggers.address} db-server \"db-server, consul-client\"",
     ]
   }
 }
