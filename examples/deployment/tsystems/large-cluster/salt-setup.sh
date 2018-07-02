@@ -14,12 +14,7 @@ echo "roles: [$3]" | sudo tee /etc/salt/grains # not 'tee -a', force overwrite..
 sudo hostnamectl set-hostname $2
 
 sudo systemctl enable salt-minion
-sudo service salt-minion start
-
-sudo yum install salt-master -y
-sudo mv /home/${var.user}/master /etc/salt/master
-sudo hostname salt-master
-sudo service salt-master restart
+sudo service salt-minion restart
 
 # sudo salt salt-master state.apply consul.init
 # sudo salt '*' state.highstate

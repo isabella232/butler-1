@@ -1,15 +1,11 @@
-resource "openstack_compute_instance_v2" "tracker" {
-  depends_on = ["openstack_compute_instance_v2.salt-master"]
+resource "openstack_compute_instance_v2" "db-server" {
+#  depends_on = ["openstack_compute_instance_v2.salt-master"]
 
   availability_zone = "${var.availability_zone}"
-  flavor_name     = "${var.tracker_flavor}"
+  flavor_name     = "${var.db_server_flavor}"
   security_groups = ["${openstack_compute_secgroup_v2.allow-traffic.name}", "${var.main_security_group_name}"]
-  name            = "${var.namespace}-tracker"
+  name            = "${var.namespace}-db-server"
   availability_zone = "${var.availability_zone}"
-
-  network = {
-    uuid = "${var.main_network_uuid}"
-  }
 
   block_device {
     uuid = "${var.image_id}"
@@ -18,6 +14,10 @@ resource "openstack_compute_instance_v2" "tracker" {
     boot_index = 0
     destination_type = "volume"
     delete_on_termination = true
+  }
+
+  network = {
+    uuid = "${var.main_network_uuid}"
   }
 
   connection {
@@ -32,16 +32,6 @@ resource "openstack_compute_instance_v2" "tracker" {
   key_pair = "${var.key_pair}"
 
   provisioner "file" {
-    source      = "run-freebayes.sh"
-    destination = "/home/${var.user}/run-freebayes.sh"
-  }
-  provisioner "remote-exec" {
-    inline = [
-      "chmod +x /home/${var.user}/run-freebayes.sh",
-    ]
-  }
-
-  provisioner "file" {
     source      = "salt-setup.sh"
     destination = "/home/${var.user}/salt-setup.sh"
   }
@@ -49,7 +39,7 @@ resource "openstack_compute_instance_v2" "tracker" {
   provisioner "remote-exec" {
     inline = [
       "chmod +x /home/${var.user}/salt-setup.sh",
-#      "/home/${var.user}/salt-setup.sh ${null_resource.masterip.triggers.address} tracker \"tracker, consul-server\"",
+#      "/home/${var.user}/salt-setup.sh ${null_resource.masterip.triggers.address} db-server \"db-server, consul-client\"",
     ]
   }
 }

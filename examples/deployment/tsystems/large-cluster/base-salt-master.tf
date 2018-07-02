@@ -46,38 +46,18 @@ resource "openstack_compute_instance_v2" "salt-master" {
     ]
   }
 
-#  provisioner "remote-exec" {
-#    inline = [
-#      "sudo yum install salt-master -y",
-#      "sudo mv /home/${var.user}/master /etc/salt/master",
-#      "sudo hostname salt-master",
-#      "sudo service salt-master start",
-#    ]
-#  }
 #
-##
-## This is trying to get the IP of all the workers, to configure the SSH config file.
-## There has to be a better way!
-#  provisioner "file" {
-#    source      = "get-worker-ssh-config.sh"
-#    destination = "/home/${var.user}/get-worker-ssh-config.sh"
-#  }
-#
-#  provisioner "remote-exec" {
-#    inline = [
-#      "chmod +x /home/${var.user}/get-worker-ssh-config.sh",
+# This is trying to get the IP of all the workers, to configure the SSH config file.
+# There has to be a better way!
+  provisioner "file" {
+    source      = "get-worker-ssh-config.sh"
+    destination = "/home/${var.user}/get-worker-ssh-config.sh"
+  }
+  provisioner "remote-exec" {
+    inline = [
+      "chmod +x /home/${var.user}/get-worker-ssh-config.sh",
 #      "sudo /home/${var.user}/get-worker-ssh-config.sh ${var.bastion_host_ip} ${var.bastion_key_file} ${var.bastion_user} | tee ssh-config-workers",
-#    ]
-#  }
-#
-#  provisioner "file" {
-#    source      = "setup-grafana.sh"
-#    destination = "/home/${var.user}/setup-grafana.sh"
-#  }
-#  provisioner "remote-exec" {
-#    inline = [
-#      "chmod +x /home/${var.user}/setup-grafana.sh"
-#    ]
-#  }
+    ]
+  }
 
 }

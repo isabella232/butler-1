@@ -1,9 +1,6 @@
-#locals {
-#  instance_name = "worker"
-#}
 
 resource "openstack_compute_instance_v2" "worker" {
-  depends_on = ["openstack_compute_instance_v2.salt-master"]
+#  depends_on = ["openstack_compute_instance_v2.salt-master"]
 
   availability_zone = "${var.availability_zone}"
   flavor_name     = "${var.worker_flavor}"
@@ -69,7 +66,7 @@ resource "openstack_compute_instance_v2" "worker" {
   provisioner "remote-exec" {
     # Don't execute yet, the reference directory isn't there until butler is installed
     inline = [
-#      "chmod +x /home/${var.user}/set-freebayes-reference-genome.sh",
+       "chmod +x /home/${var.user}/set-freebayes-reference-genome.sh",
     ]
   }
 
