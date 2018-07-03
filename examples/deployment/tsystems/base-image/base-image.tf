@@ -44,6 +44,7 @@ resource "openstack_compute_instance_v2" "base" {
     inline = [
       "chmod +x /home/${var.user}/sshd-fix.sh",
       "sudo /home/${var.user}/sshd-fix.sh",
+      "/bin/rm -f /home/${var.user}/sshd-fix.sh",
     ]
   }
 
@@ -58,8 +59,9 @@ resource "openstack_compute_instance_v2" "base" {
   }
   provisioner "remote-exec" {
     inline = [
-      "sudo patch -p0 /etc/dracut.conf /home/$USER/dracut.conf.patch",
+      "sudo patch -p0 /etc/dracut.conf /home/${var.user}/dracut.conf.patch",
       "sudo dracut -f",
+      "/bin/rm -f /home/${var.user}/dracut.conf.patch"
     ]
   }
 
@@ -68,42 +70,17 @@ resource "openstack_compute_instance_v2" "base" {
     destination = "/home/${var.user}/master"
   }
 
+  provisioner "file" {
+    source      = "setup-base.sh"
+    destination = "/home/${var.user}/setup-base.sh"
+  }
   provisioner "remote-exec" {
     inline = [
-      "sudo yum install epel-release -y",
-      "sudo yum -y update",
-      "sudo yum install -y python-pip git python-pygit2 wget yum-plugin-priorities",
-      "sudo yum install -y gcc gcc-c++ make cmake kernel-devel zlib-devel bzip2-devel xz-devel", # To build freebayes
-      "sudo yum install -y https://repo.saltstack.com/yum/redhat/salt-repo-latest-2.el7.noarch.rpm",
-#      "sudo yum install -y salt-master salt-minion",
-      "sudo yum install -y salt-minion",
-      "sudo systemctl disable firewalld",
-      "sudo systemctl stop firewalld",
-      "yum clean expire-cache",
-#      "echo master: salt-master | sudo tee  -a /etc/salt/minion",
-#      "echo id: salt-master | sudo tee -a /etc/salt/minion",
-#      "echo roles: [salt-master, consul-server, monitoring-server, consul-ui, butler-web, elasticsearch] | sudo tee -a /etc/salt/grains",
-#      "sudo hostnamectl set-hostname $2",
-      "sudo patch -p0 /etc/salt/minion /home/$USER/minion.patch",
-#      "sudo systemctl enable salt-minion",
-#      "sudo service salt-minion start",
-#
-#      "sudo service salt-master stop",
-#      "sudo mv /home/${var.user}/master /etc/salt/master",
-#      "sudo service salt-master start",
-#      "sudo hostname salt-master",
+      "chmod +x /home/${var.user}/setup-base.sh",,
+      "sudo /home/${var.user}/setup-base.sh ${var.user}",
+      "/bin/rm -f /home/${var.user}/setup-base.sh ${var.user}",
     ]
   }
-
-#  provisioner "file" {
-#    source      = "setup-grafana.sh"
-#    destination = "/home/${var.user}/setup-grafana.sh"
-#  }
-#  provisioner "remote-exec" {
-#    inline = [
-#      "chmod +x /home/${var.user}/setup-grafana.sh"
-#    ]
-#  }
 
   provisioner "file" {
     source      = "setup-freebayes.sh"
@@ -112,7 +89,8 @@ resource "openstack_compute_instance_v2" "base" {
   provisioner "remote-exec" {
     inline = [
       "chmod +x /home/${var.user}/setup-freebayes.sh",
-      "sudo /home/${var.user}/setup-freebayes.sh"
+      "sudo /home/${var.user}/setup-freebayes.sh",
+      "/bin/rm -f /home/${var.user}/setup-freebayes.sh",
     ]
   }
 
@@ -123,7 +101,20 @@ resource "openstack_compute_instance_v2" "base" {
   provisioner "remote-exec" {
     inline = [
       "chmod +x /home/${var.user}/setup-butler.sh",
-      "sudo /home/${var.user}/setup-butler.sh"
+      "sudo /home/${var.user}/setup-butler.sh",
+      "/bin/rm -f /home/${var.user}/setup-butler.sh",
+    ]
+  }
+
+  provisioner "file" {
+    source      = "install-consul.sh"
+    destination = "/home/${var.user}/install-consul.sh"
+  }
+  provisioner "remote-exec" {
+    inline = [
+      "chmod +x /home/${var.user}/install-consul.sh",
+      "sudo /home/${var.user}/install-consul.sh",
+      "/bin/rm -f /home/${var.user}/install-consul.sh",
     ]
   }
 
