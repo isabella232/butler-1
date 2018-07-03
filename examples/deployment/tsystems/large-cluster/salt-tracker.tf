@@ -20,4 +20,15 @@ resource "null_resource" "salt-tracker-deploy" {
       "/home/${var.user}/salt-setup.sh ${null_resource.masterip.triggers.address} tracker \"tracker, consul-server\"",
     ]
   }
+
+  provisioner "file" {
+    source      = "setup-large-scale-test.sh"
+    destination = "/home/${var.user}/setup-large-scale-test.sh"
+  }
+  provisioner "remote-exec" {
+    inline = [
+      "chmod +x /home/${var.user}/setup-large-scale-test.sh",
+      "/home/${var.user}/setup-large-scale-test.sh"
+    ]
+  }
 }

@@ -4,7 +4,6 @@ resource "openstack_compute_instance_v2" "db-server" {
   flavor_name     = "${var.db_server_flavor}"
   security_groups = ["${openstack_compute_secgroup_v2.allow-traffic.name}", "${var.main_security_group_name}"]
   name            = "${var.namespace}-db-server"
-  availability_zone = "${var.availability_zone}"
 
   block_device {
     uuid = "${var.image_id}"
@@ -32,7 +31,6 @@ resource "openstack_compute_instance_v2" "db-server" {
     source      = "salt-setup.sh"
     destination = "/home/${var.user}/salt-setup.sh"
   }
-
   provisioner "remote-exec" {
     inline = [
       "chmod +x /home/${var.user}/salt-setup.sh",

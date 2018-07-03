@@ -1,14 +1,9 @@
 resource "openstack_compute_instance_v2" "tracker" {
 
+  availability_zone = "${var.availability_zone}"
   flavor_name     = "${var.tracker_flavor}"
-  name            = "${var.namespace}-tracker"
-  availability_zone = "${var.availability_zone}"
   security_groups = ["${openstack_compute_secgroup_v2.allow-traffic.name}", "${var.main_security_group_name}"]
-  availability_zone = "${var.availability_zone}"
-
-  network = {
-    uuid = "${var.main_network_uuid}"
-  }
+  name            = "${var.namespace}-tracker"
 
   block_device {
     uuid = "${var.image_id}"
@@ -17,6 +12,10 @@ resource "openstack_compute_instance_v2" "tracker" {
     boot_index = 0
     destination_type = "volume"
     delete_on_termination = true
+  }
+
+  network = {
+    uuid = "${var.main_network_uuid}"
   }
 
   connection {
@@ -42,7 +41,6 @@ resource "openstack_compute_instance_v2" "tracker" {
     source      = "salt-setup.sh"
     destination = "/home/${var.user}/salt-setup.sh"
   }
-
   provisioner "remote-exec" {
     inline = [
       "chmod +x /home/${var.user}/salt-setup.sh",

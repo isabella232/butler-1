@@ -7,10 +7,6 @@ resource "null_resource" "salt-master-deploy" {
                   "openstack_compute_instance_v2.tracker",
                   "openstack_compute_instance_v2.worker"
                ]
-#  depends_on = [
-#                  "openstack_compute_instance_v2.salt-master",
-#                  "openstack_compute_instance_v2.tracker",
-#               ]
 
   connection {
     user                = "${var.user}"
@@ -58,6 +54,8 @@ resource "null_resource" "salt-master-deploy" {
     destination = "/home/${var.user}/setup-grafana.sh"
   }
   provisioner "remote-exec" {
+#
+#   This won't run properly until butler has been deployed
     inline = [
       "chmod +x /home/${var.user}/setup-grafana.sh"
     ]

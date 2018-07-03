@@ -56,11 +56,10 @@ EOF
     source      = "ssh-config.bastion"
     destination = "/home/${var.bastion_user}/.ssh/config.bastion"
   }
-
   provisioner "remote-exec" {
     inline = [
       "/bin/rm -f ~/.ssh/config",
-      "cp ~/.ssh/config.bastion ~/.ssh/config",
+      "/bin/mv ~/.ssh/config.bastion ~/.ssh/config",
       "chmod 400 ${var.bastion_key_file} ~/.ssh/config"
     ]
   }
@@ -104,8 +103,7 @@ EOF
 
 }
 
-resource "null_resource" "post-salt-setup" {
-# Do this for every set of workers I bring up
+resource "null_resource" "salt-cluster-activate" {
   depends_on = [
                   "openstack_compute_instance_v2.db-server",
                   "openstack_compute_instance_v2.job-queue",
@@ -114,6 +112,7 @@ resource "null_resource" "post-salt-setup" {
                   "openstack_compute_instance_v2.worker"
                ]
 
+# Do this for every set of workers I bring up
   triggers {
     something = "${uuid()}"
   }
@@ -129,49 +128,17 @@ resource "null_resource" "post-salt-setup" {
   }
 
   provisioner "file" {
-    source      = "salt-post.sh"
-    destination = "/home/${var.user}/salt-post.sh"
+    source      = "salt-cluster-activate.sh"
+    destination = "/home/${var.user}/salt-cluster-activate.sh"
   }
 
   provisioner "remote-exec" {
     inline = [
-      "chmod +x /home/${var.user}/salt-post.sh",
-      "sudo /home/${var.user}/salt-post.sh"
+      "chmod +x /home/${var.user}/salt-cluster-activate.sh",
+      "sudo /home/${var.user}/salt-cluster-activate.sh"
     ]
   }
 
-}
-
-resource "null_resource" "epilogue-salt-setup" {
-# This is a one-off, even if I bring up more workers later I won't need to repeat this...
-  depends_on = [
-                  "openstack_compute_instance_v2.db-server",
-                  "openstack_compute_instance_v2.job-queue",
-                  "openstack_compute_instance_v2.salt-master",
-                  "openstack_compute_instance_v2.tracker",
-                  "openstack_compute_instance_v2.worker"
-               ]
-
-  connection {
-    user = "${var.user}"
-    host = "${openstack_compute_instance_v2.salt-master.access_ip_v4}"
-    private_key = "${file(var.key_file)}"
-#    bastion_private_key = "${file(var.bastion_key_file)}"
-#    bastion_host = "${var.bastion_host_ip}"
-#    bastion_user = "${var.bastion_user}"
-    agent = false
-  }
-
-  provisioner "file" {
-    source      = "salt-epilogue.sh"
-    destination = "/home/${var.user}/salt-epilogue.sh"
-  }
-
-  provisioner "remote-exec" {
-    inline = [
-      "chmod +x /home/${var.user}/salt-epilogue.sh",
-      "sudo /home/${var.user}/salt-epilogue.sh"
-    ]
-  }
+#}
 
 }

@@ -33,16 +33,19 @@ resource "openstack_compute_instance_v2" "salt-master" {
     source      = "examples/post-launch-check"
     destination = "/home/${var.user}/post-launch-check"
   }
+  provisioner "remote-exec" {
+    inline = [
+      "chmod +x /home/${var.user}/post-launch-check/*",
+    ]
+  }
 
   provisioner "file" {
     source      = "salt-setup.sh"
     destination = "/home/${var.user}/salt-setup.sh"
   }
-
   provisioner "remote-exec" {
     inline = [
       "chmod +x /home/${var.user}/salt-setup.sh",
-#      "/home/${var.user}/salt-setup.sh `hostname -I` salt-master \"salt-master, consul-server, monitoring-server, consul-ui, butler-web, elasticsearch\"",
     ]
   }
 

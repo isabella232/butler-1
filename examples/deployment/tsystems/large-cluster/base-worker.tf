@@ -4,7 +4,6 @@ resource "openstack_compute_instance_v2" "worker" {
   flavor_name     = "${var.worker_flavor}"
   security_groups = ["${openstack_compute_secgroup_v2.allow-traffic.name}", "${var.main_security_group_name}"]
   name            = "${var.namespace}-worker-${count.index}"
-  availability_zone = "${var.availability_zone}"
 
   block_device {
     uuid = "${var.image_id}"
@@ -35,7 +34,6 @@ resource "openstack_compute_instance_v2" "worker" {
     source      = "salt-setup.sh"
     destination = "/home/${var.user}/salt-setup.sh"
   }
-
   provisioner "remote-exec" {
     inline = [
       "chmod +x /home/${var.user}/salt-setup.sh",
@@ -54,16 +52,15 @@ resource "openstack_compute_instance_v2" "worker" {
   }
 
   #
-  # This sets the reference genome to the complete reference genome, available via the oneclient mount
+  # This sets the reference genome to the complete reference genome, via the oneclient mount
   provisioner "file" {
     source      = "set-freebayes-reference-genome.sh"
     destination = "/home/${var.user}/set-freebayes-reference-genome.sh"
   }
-
   provisioner "remote-exec" {
-    # Don't execute yet, the reference directory isn't there until butler is installed
     inline = [
        "chmod +x /home/${var.user}/set-freebayes-reference-genome.sh",
+       "sudo /home/${var.user}/set-freebayes-reference-genome.sh",
     ]
   }
 
