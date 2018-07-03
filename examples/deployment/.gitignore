@@ -1,0 +1,13 @@
+.terraform
+ssh-config*
+*.pem
+*.pub
+*.key
+*.swp
+TSystems.sh
+oneclient.token.txt
+examples
+genome
+redo.sh
+NOTES.txt
+sav
