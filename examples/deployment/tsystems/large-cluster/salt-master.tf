@@ -1,4 +1,3 @@
-
 resource "null_resource" "salt-master-deploy" {
 
   depends_on = [
@@ -8,25 +7,10 @@ resource "null_resource" "salt-master-deploy" {
                   "openstack_compute_instance_v2.tracker",
                   "openstack_compute_instance_v2.worker"
                ]
-
-# "openstack_compute_instance_v2" "salt-master" {
-#  availability_zone = "${var.availability_zone}"
-#  flavor_name     = "${var.salt_master_flavor}"
-#  security_groups = ["${openstack_compute_secgroup_v2.allow-traffic.name}", "${var.main_security_group_name}"]
-#  name            = "${var.namespace}-salt-master"
-#
-#  block_device {
-#    uuid = "${var.image_id}"
-#    source_type = "image"
-#    volume_size = "${var.disk_size_gb}"
-#    boot_index = 0
-#    destination_type = "volume"
-#    delete_on_termination = true
-#  }
-#
-#  network = {
-#    uuid = "${var.main_network_uuid}"
-#  }
+#  depends_on = [
+#                  "openstack_compute_instance_v2.salt-master",
+#                  "openstack_compute_instance_v2.tracker",
+#               ]
 
   connection {
     user                = "${var.user}"
@@ -37,8 +21,6 @@ resource "null_resource" "salt-master-deploy" {
 #    bastion_user        = "${var.bastion_user}"
     host                = "${openstack_compute_instance_v2.salt-master.access_ip_v4}"
   }
-
-#  key_pair = "${var.key_pair}"
 
   provisioner "remote-exec" {
     inline = [
@@ -56,20 +38,20 @@ resource "null_resource" "salt-master-deploy" {
     ]
   }
 
-##
-## This is trying to get the IP of all the workers, to configure the SSH config file.
-## There has to be a better way!
-#  provisioner "file" {
-#    source      = "get-worker-ssh-config.sh"
-#    destination = "/home/${var.user}/get-worker-ssh-config.sh"
-#  }
 #
-#  provisioner "remote-exec" {
-#    inline = [
-#      "chmod +x /home/${var.user}/get-worker-ssh-config.sh",
+# This is trying to get the IP of all the workers, to configure the SSH config file.
+# There has to be a better way!
+  provisioner "file" {
+    source      = "get-worker-ssh-config.sh"
+    destination = "/home/${var.user}/get-worker-ssh-config.sh"
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "chmod +x /home/${var.user}/get-worker-ssh-config.sh",
 #      "sudo /home/${var.user}/get-worker-ssh-config.sh ${var.bastion_host_ip} ${var.bastion_key_file} ${var.bastion_user} | tee ssh-config-workers",
-#    ]
-#  }
+    ]
+  }
 
   provisioner "file" {
     source      = "setup-grafana.sh"

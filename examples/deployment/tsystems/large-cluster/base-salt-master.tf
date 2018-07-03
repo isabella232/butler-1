@@ -1,5 +1,5 @@
-
 resource "openstack_compute_instance_v2" "salt-master" {
+
   availability_zone = "${var.availability_zone}"
   flavor_name     = "${var.salt_master_flavor}"
   security_groups = ["${openstack_compute_secgroup_v2.allow-traffic.name}", "${var.main_security_group_name}"]
@@ -56,7 +56,6 @@ resource "openstack_compute_instance_v2" "salt-master" {
   provisioner "remote-exec" {
     inline = [
       "chmod +x /home/${var.user}/get-worker-ssh-config.sh",
-#      "sudo /home/${var.user}/get-worker-ssh-config.sh ${var.bastion_host_ip} ${var.bastion_key_file} ${var.bastion_user} | tee ssh-config-workers",
     ]
   }
 

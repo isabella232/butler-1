@@ -1,6 +1,4 @@
-
 resource "openstack_compute_instance_v2" "worker" {
-#  depends_on = ["openstack_compute_instance_v2.salt-master"]
 
   availability_zone = "${var.availability_zone}"
   flavor_name     = "${var.worker_flavor}"
@@ -41,7 +39,6 @@ resource "openstack_compute_instance_v2" "worker" {
   provisioner "remote-exec" {
     inline = [
       "chmod +x /home/${var.user}/salt-setup.sh",
-#      "/home/${var.user}/salt-setup.sh ${null_resource.masterip.triggers.address} worker-${count.index} \"worker, consul-client\"",
     ]
   }
 

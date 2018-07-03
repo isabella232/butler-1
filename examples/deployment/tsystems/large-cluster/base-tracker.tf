@@ -1,5 +1,4 @@
 resource "openstack_compute_instance_v2" "tracker" {
-#  depends_on = ["openstack_compute_instance_v2.salt-master"]
 
   flavor_name     = "${var.tracker_flavor}"
   name            = "${var.namespace}-tracker"
@@ -29,8 +28,6 @@ resource "openstack_compute_instance_v2" "tracker" {
     agent               = false
   }
 
-  key_pair = "${var.key_pair}"
-
   provisioner "file" {
     source      = "run-freebayes.sh"
     destination = "/home/${var.user}/run-freebayes.sh"
@@ -49,7 +46,6 @@ resource "openstack_compute_instance_v2" "tracker" {
   provisioner "remote-exec" {
     inline = [
       "chmod +x /home/${var.user}/salt-setup.sh",
-#      "/home/${var.user}/salt-setup.sh ${null_resource.masterip.triggers.address} tracker \"tracker, consul-server\"",
     ]
   }
 }

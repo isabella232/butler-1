@@ -1,5 +1,4 @@
 resource "openstack_compute_instance_v2" "job-queue" {
-#  depends_on = ["openstack_compute_instance_v2.salt-master"]
 
   availability_zone = "${var.availability_zone}"
   flavor_name     = "${var.job_queue_flavor}"
@@ -39,7 +38,6 @@ resource "openstack_compute_instance_v2" "job-queue" {
   provisioner "remote-exec" {
     inline = [
       "chmod +x /home/${var.user}/salt-setup.sh",
-#       "/home/${var.user}/salt-setup.sh ${null_resource.masterip.triggers.address} job-queue \"job-queue, consul-client\"",
     ]
   }
 }

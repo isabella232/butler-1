@@ -1,5 +1,4 @@
 resource "openstack_compute_instance_v2" "db-server" {
-#  depends_on = ["openstack_compute_instance_v2.salt-master"]
 
   availability_zone = "${var.availability_zone}"
   flavor_name     = "${var.db_server_flavor}"
@@ -29,8 +28,6 @@ resource "openstack_compute_instance_v2" "db-server" {
     agent               = false
   }
 
-  key_pair = "${var.key_pair}"
-
   provisioner "file" {
     source      = "salt-setup.sh"
     destination = "/home/${var.user}/salt-setup.sh"
@@ -39,7 +36,6 @@ resource "openstack_compute_instance_v2" "db-server" {
   provisioner "remote-exec" {
     inline = [
       "chmod +x /home/${var.user}/salt-setup.sh",
-#      "/home/${var.user}/salt-setup.sh ${null_resource.masterip.triggers.address} db-server \"db-server, consul-client\"",
     ]
   }
 }
