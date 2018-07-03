@@ -105,11 +105,11 @@ EOF
 
 resource "null_resource" "salt-cluster-activate" {
   depends_on = [
-                  "openstack_compute_instance_v2.db-server",
-                  "openstack_compute_instance_v2.job-queue",
-                  "openstack_compute_instance_v2.salt-master",
-                  "openstack_compute_instance_v2.tracker",
-                  "openstack_compute_instance_v2.worker"
+                  "null_resource.salt-db-server-deploy",
+                  "null_resource.salt-job-queue-deploy",
+                  "null_resource.salt-master-deploy",
+                  "null_resource.salt-tracker-deploy",
+                  "null_resource.salt-worker-deploy"
                ]
 
 # Do this for every set of workers I bring up
@@ -134,6 +134,7 @@ resource "null_resource" "salt-cluster-activate" {
 
   provisioner "remote-exec" {
     inline = [
+      "echo I am on `hostname`",
       "chmod +x /home/${var.user}/salt-cluster-activate.sh",
       "sudo /home/${var.user}/salt-cluster-activate.sh"
     ]
