@@ -102,14 +102,14 @@ resource "openstack_compute_instance_v2" "salt-master" {
     destination = "/home/${var.user}/.ssh/"
   }
 
-  provisioner "file" {
-    source      = "setup-grafana.sh"
-    destination = "/home/${var.user}/setup-grafana.sh"
-  }
-  provisioner "remote-exec" {
-    inline = [
-      "chmod +x /home/${var.user}/setup-grafana.sh"
-    ]
-  }
+#  provisioner "file" {
+#    source      = "setup-grafana.sh"
+#    destination = "/home/${var.user}/setup-grafana.sh"
+#  }
+#  provisioner "remote-exec" {
+#    inline = [
+#      "chmod +x /home/${var.user}/setup-grafana.sh"
+#    ]
+#  }
 
 }
