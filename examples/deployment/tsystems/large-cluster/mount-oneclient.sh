@@ -6,10 +6,15 @@ if [ "$token" == "" ]; then
   exit 1
 fi
 
+vsn=$2
+if [ "$vsn" == "" ]; then
+  vsn="oneclient-18.02.0.rc8"
+fi
+
 if [ ! -f /usr/bin/oneclient ]; then
   curl -sS -o oneclient.sh http://get.onedata.org/oneclient.sh
   chmod +x oneclient.sh
-  sudo ./oneclient.sh
+  sudo ./oneclient.sh $vsn
 fi
 
 sudo mkdir -p /data

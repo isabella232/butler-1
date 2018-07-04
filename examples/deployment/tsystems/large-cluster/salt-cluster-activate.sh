@@ -10,7 +10,9 @@ sudo salt-run mine.update '*'
 (
   echo "Start: `date +%s`"
   sudo salt '*' test.ping
-  sudo salt-run state.orchestrate butler.deploy
+
+#  sudo salt-run state.orchestrate butler.deploy
+  sudo salt-run --log-level=info --no-colour state.orchestrate butler.deploy
   echo "Stop: `date +%s`"
 ) 2>&1 | tee $log
 
