@@ -1,3 +1,7 @@
+data "external" "example" { 
+  program = ["./get-oneclient-version-json.sh"] 
+} 
+
 resource "openstack_compute_instance_v2" "worker" {
 
   availability_zone = "${var.availability_zone}"
@@ -47,7 +51,7 @@ resource "openstack_compute_instance_v2" "worker" {
   provisioner "remote-exec" {
     inline = [
       "chmod +x /home/${var.user}/mount-oneclient.sh",
-      "/home/${var.user}/mount-oneclient.sh ${var.oneclient_token}"
+      "/home/${var.user}/mount-oneclient.sh ${var.oneclient_token} ${data.external.example.result.vsn}"
     ]
   }
 
