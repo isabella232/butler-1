@@ -21,3 +21,7 @@ systemctl disable firewalld
 systemctl stop firewalld
 yum clean expire-cache
 patch -p0 /etc/salt/minion /home/$REAL_USER/minion.patch
+(
+  echo '* hard nofile 1048576'
+  echo '* soft nofile 1048576'
+) | sudo tee -a /etc/security/limits.conf
