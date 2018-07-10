@@ -62,4 +62,20 @@ resource "openstack_compute_instance_v2" "salt-master" {
     ]
   }
 
+  provisioner "remote-exec" {
+    inline = [
+      "sudo yum install salt-master -y",
+      "sudo mv /home/${var.user}/master /etc/salt/master",
+      "sudo hostname salt-master",
+      "sudo systemctl enable salt-master",
+      "sudo service salt-master restart",
+    ]
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "/home/${var.user}/salt-setup.sh `hostname -I` salt-master \"salt-master, consul-server, monitoring-server, consul-ui, butler-web, elasticsearch\"",
+    ]
+  }
+
 }

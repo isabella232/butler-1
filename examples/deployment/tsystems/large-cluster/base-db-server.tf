@@ -36,4 +36,5 @@ resource "openstack_compute_instance_v2" "db-server" {
       "chmod +x /home/${var.user}/salt-setup.sh",
     ]
   }
+
 }

@@ -46,4 +46,5 @@ resource "openstack_compute_instance_v2" "tracker" {
       "chmod +x /home/${var.user}/salt-setup.sh",
     ]
   }
+
 }

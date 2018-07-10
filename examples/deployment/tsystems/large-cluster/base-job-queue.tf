@@ -38,4 +38,5 @@ resource "openstack_compute_instance_v2" "job-queue" {
       "chmod +x /home/${var.user}/salt-setup.sh",
     ]
   }
+
 }
