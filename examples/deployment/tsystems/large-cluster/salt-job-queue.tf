@@ -17,6 +17,15 @@ resource "null_resource" "salt-job-queue-deploy" {
 
   provisioner "remote-exec" {
     inline = [
+      "sudo mkdir -p /etc/systemd/system/rabbitmq-server.service.d/",
+      "echo '[Service]' | sudo tee /etc/systemd/system/rabbitmq-server.service.d/override.conf",
+      "echo 'LimitNOFILE=1048576' | sudo tee -a /etc/systemd/system/rabbitmq-server.service.d/override.conf",
+      "sudo systemctl daemon-reload",
+    ]
+  }
+
+  provisioner "remote-exec" {
+    inline = [
       "/home/${var.user}/salt-setup.sh ${null_resource.masterip.triggers.address} job-queue \"job-queue, consul-server\"",
     ]
   }
