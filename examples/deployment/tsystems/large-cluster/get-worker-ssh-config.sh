@@ -4,6 +4,15 @@ bastion=$1
 identity=$2
 user=$3
 
+identity=${identity:=~/.ssh/tony-bastion.pem}
+user=${user:=linux}
+
+if [ "$bastion" == "" ]; then
+  echo "Need the bastion-ip, ssh-identity, and user"
+  exit 0
+fi
+
+
 sudo salt 'worker-*' cmd.run '/sbin/ifconfig eth0' | \
   egrep '^worker|inet ' | \
   sed \
