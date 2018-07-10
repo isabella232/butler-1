@@ -1,15 +1,22 @@
 #!/bin/bash
 
 now=`date +%s`
-log=~/deploy.$now.log
+log=~${SUDO_USER}/deploy.$now.log
+
+waiting=`salt '*' test.ping | tee a | grep -c 'did not return'`
+while [ $waiting -ne 0 ]; do
+  echo "Waiting for $waiting nodes"
+  sleep 30
+  waiting=`salt '*' test.ping | tee a | grep -c 'did not return'`
+done
 
 set -x
 sudo salt-key --accept-all --yes
 sudo salt-run mine.update '*'
-# sudo salt 'worker-*' cmd.run '/bin/rm -rf /opt/butler/configuration/salt/state/biotools'
+
 (
   echo "Start: `date +%s`"
-  sudo salt '*' test.ping
+# sudo salt '*' test.ping
 
 #  sudo salt-run state.orchestrate butler.deploy
   sudo salt-run --log-level=info --no-colour state.orchestrate butler.deploy
