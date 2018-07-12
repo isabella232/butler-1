@@ -15,3 +15,10 @@ unzip $file
 chmod 755 $dir/consul
 
 ln -s $dir/consul /usr/bin/
+
+mkdir -p /etc/systemd/system/rabbitmq-server.service.d/
+(
+  echo '[Service]'
+  echo 'LimitNOFILE=1048576'
+) | tee /etc/systemd/system/rabbitmq-server.service.d/override.conf
+systemctl daemon-reload
