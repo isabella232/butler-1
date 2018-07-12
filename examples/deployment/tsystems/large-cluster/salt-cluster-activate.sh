@@ -23,6 +23,9 @@ sudo salt-run mine.update '*'
   echo "Stop: `date +%s`"
 ) 2>&1 | tee $log
 
+# After that, if I have enough nodes, I need to kick consul:
+# salt '*' cmd.run 'sudo service consul restart'
+
 if [ -f ./setup-grafana.sh ]; then
   sudo ./setup-grafana.sh
   /bin/mv setup-grafana.sh{,.sav}

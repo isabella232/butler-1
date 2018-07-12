@@ -33,6 +33,27 @@ resource "null_resource" "salt-master-deploy" {
     ]
   }
 
+  provisioner "remote-exec" {
+    inline = [
+      "sudo mkdir -p /etc/systemd/system/consul.service.d/",
+      "echo '[Service]' | sudo tee /etc/systemd/system/consul.service.d/override.conf",
+      "echo 'LimitNOFILE=1048576' | sudo tee -a /etc/systemd/system/consul.service.d/override.conf",
+      "sudo systemctl daemon-reload",
+      "sudo service consul restart",
+    ]
+  }
+
+  provisioner "file" {
+    source      = "telegraf.service.patch"
+    destination = "/home/${var.user}/telegraf.service.patch"
+  }
+  provisioner "remote-exec" {
+    inline = [
+      "sudo patch -p0 /etc/systemd/system/multi-user.target.wants/telegraf.service /home/${var.user}/telegraf.service.patch",
+      "sudo systemctl daemon-reload",
+    ]
+  }
+
   provisioner "file" {
     source      = "setup-grafana.sh"
     destination = "/home/${var.user}/setup-grafana.sh"
