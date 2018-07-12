@@ -44,7 +44,7 @@
  # Number of consecutive SaltReqTimeoutError that are acceptable when trying to
  # authenticate.
  #auth_tries: 7
-+auth_tries: 99
++auth_tries: 17
  
  # The number of attempts to connect to a master before giving up.
  # Set this to -1 for unlimited attempts. This allows for a master to have
