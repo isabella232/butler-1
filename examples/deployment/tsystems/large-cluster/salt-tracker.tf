@@ -29,15 +29,6 @@ resource "null_resource" "salt-tracker-deploy" {
     source      = "airflow-scheduler.service.patch"
     destination = "/home/${var.user}/airflow-scheduler.service.patch"
   }
-  provisioner "file" {
-    source      = "setup-tracker.sh"
-    destination = "/home/${var.user}/setup-tracker.sh"
-  }
-  provisioner "remote-exec" {
-    inline = [
-      "sudo /home/${var.user}/setup-tracker.sh"
-    ]
-  }
 
   provisioner "file" {
     source      = "setup-large-scale-test.sh"
