@@ -8,9 +8,13 @@ sudo systemctl disable firewalld
 sudo systemctl stop firewalld
 
 set -x
-echo "master: $1" | sudo tee  -a /etc/salt/minion
-echo "id: $2" | sudo tee -a /etc/salt/minion
-echo "roles: [$3]" | sudo tee /etc/salt/grains # not 'tee -a', force overwrite...
+cat /etc/salt/minion | egrep -v '^master: |^id: ' | tee /tmp/minion.orig >/dev/null
+(
+  cat /tmp/minion.orig
+  echo "master: $1"
+  echo "id: $2"
+) | sudo tee /etc/salt/minion
+echo "roles: [$3]" | sudo tee /etc/salt/grains
 sudo hostnamectl set-hostname $2
 
 sudo systemctl enable salt-minion
