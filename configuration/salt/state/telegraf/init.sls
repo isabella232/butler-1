@@ -15,3 +15,11 @@ telegraf:
     - group: telegraf
     - mode: 644
     - template: jinja
+
+/etc/systemd/system/multi-user.target.wants/telegraf.service:
+  file.managed:
+    - source: salt://telegraf/config/telegraf.service
+    - user: telegraf
+    - group: telegraf
+    - mode: 644
+    - template: jinja
