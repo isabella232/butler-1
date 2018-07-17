@@ -1,4 +1,4 @@
-resource "null_resource" "epilogue-bastion" {
+resource "null_resource" "ssh-bastion" {
 #
 # This updates the ~/.ssh/config file on the bastion host so that
 # from there, you can just 'ssh salt-master' etc, and it will work,
@@ -30,7 +30,7 @@ resource "null_resource" "epilogue-bastion" {
   echo "Host salt-master"
   echo "  HostName ${openstack_compute_instance_v2.salt-master.access_ip_v4}"
   echo " "
-  echo "Host db-master"
+  echo "Host db-server"
   echo "  HostName ${openstack_compute_instance_v2.db-server.access_ip_v4}"
   echo " "
   echo "Host tracker"
@@ -81,7 +81,7 @@ EOF
   echo "  HostName ${openstack_compute_instance_v2.salt-master.access_ip_v4}"
   echo "  ProxyCommand ssh -i ${var.bastion_key_file} ${var.bastion_user}@${var.bastion_host_ip} -W %h:%p"
   echo " "
-  echo "Host db-master"
+  echo "Host db-server"
   echo "  HostName ${openstack_compute_instance_v2.db-server.access_ip_v4}"
   echo "  ProxyCommand ssh -i ${var.bastion_key_file} ${var.bastion_user}@${var.bastion_host_ip} -W %h:%p"
   echo " "
@@ -100,46 +100,5 @@ EOF
 ) | tee ssh-config
 EOF
   }
-
-}
-
-resource "null_resource" "salt-cluster-activate" {
-  depends_on = [
-                  "null_resource.salt-db-server-deploy",
-                  "null_resource.salt-job-queue-deploy",
-                  "null_resource.salt-master-deploy",
-                  "null_resource.salt-tracker-deploy",
-                  "null_resource.salt-worker-deploy"
-               ]
-
-# Do this for every set of workers I bring up
-  triggers {
-    something = "${uuid()}"
-  }
-
-  connection {
-    user = "${var.user}"
-    host = "${openstack_compute_instance_v2.salt-master.access_ip_v4}"
-    private_key = "${file(var.key_file)}"
-#    bastion_private_key = "${file(var.bastion_key_file)}"
-#    bastion_host = "${var.bastion_host_ip}"
-#    bastion_user = "${var.bastion_user}"
-    agent = false
-  }
-
-  provisioner "file" {
-    source      = "salt-cluster-activate.sh"
-    destination = "/home/${var.user}/salt-cluster-activate.sh"
-  }
-
-  provisioner "remote-exec" {
-    inline = [
-      "echo I am on `hostname`",
-      "chmod +x /home/${var.user}/salt-cluster-activate.sh",
-      "sudo /home/${var.user}/salt-cluster-activate.sh"
-    ]
-  }
-
-#}
 
 }

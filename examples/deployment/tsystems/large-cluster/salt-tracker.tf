@@ -21,14 +21,14 @@ resource "null_resource" "salt-tracker-deploy" {
     ]
   }
 
-  provisioner "file" {
-    source      = "airflow.cfg.patch"
-    destination = "/home/${var.user}/airflow.cfg.patch"
-  }
-  provisioner "file" {
-    source      = "airflow-scheduler.service.patch"
-    destination = "/home/${var.user}/airflow-scheduler.service.patch"
-  }
+#  provisioner "file" {
+#    source      = "airflow.cfg.patch"
+#    destination = "/home/${var.user}/airflow.cfg.patch"
+#  }
+#  provisioner "file" {
+#    source      = "airflow-scheduler.service.patch"
+#    destination = "/home/${var.user}/airflow-scheduler.service.patch"
+#  }
 
   provisioner "file" {
     source      = "setup-large-scale-test.sh"

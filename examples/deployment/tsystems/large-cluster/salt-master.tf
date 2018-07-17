@@ -18,14 +18,10 @@ resource "null_resource" "salt-master-deploy" {
     host                = "${openstack_compute_instance_v2.salt-master.access_ip_v4}"
   }
 
-#
-# This is trying to get the IP of all the workers, to configure the SSH config file.
-# There has to be a better way!
   provisioner "file" {
     source      = "get-worker-ssh-config.sh"
     destination = "/home/${var.user}/get-worker-ssh-config.sh"
   }
-
   provisioner "remote-exec" {
     inline = [
       "chmod +x /home/${var.user}/get-worker-ssh-config.sh",
