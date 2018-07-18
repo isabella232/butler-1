@@ -4,8 +4,8 @@ resource "null_resource" "salt-cluster-activate" {
                   "null_resource.salt-job-queue-deploy",
                   "null_resource.salt-master-deploy",
                   "null_resource.salt-tracker-deploy",
-                  "null_resource.salt-worker-deploy"
-                  "null_resource.ssh-bastion"
+                  "null_resource.salt-worker-deploy",
+                  "null_resource.ssh-bastion",
                ]
 
 # Do this for every set of workers I bring up
