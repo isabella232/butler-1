@@ -23,4 +23,4 @@ sudo salt 'worker-*' cmd.run '/sbin/ifconfig eth0' | \
   echo " "
   cat ssh-config | grep -v ProxyCommand
 ) | tee ~/.ssh/config >/dev/null
-chmod 600 ~/.ssh/config
+chmod 400 ~/.ssh/config

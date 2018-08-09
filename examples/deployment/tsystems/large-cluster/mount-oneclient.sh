@@ -37,7 +37,7 @@ do
       /data --force-direct-io \
       -o allow_other \
       --force-fullblock-read \
-      --rndrd-prefetch-cluster-window=10485760 \
+      --rndrd-prefetch-cluster-window=31457280 \
       --rndrd-prefetch-cluster-block-threshold=5 \
       --provider-timeout=7200 \
       -v 1
@@ -50,3 +50,6 @@ do
   echo "Mount failed, trying again in a few seconds"
   sleep $((RANDOM % 10 + 3 ))
 done
+
+#
+# Increase from...      --rndrd-prefetch-cluster-window=10485760

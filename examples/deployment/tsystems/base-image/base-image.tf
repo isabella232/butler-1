@@ -29,6 +29,30 @@ resource "openstack_compute_instance_v2" "base" {
 
   key_pair = "${var.key_pair}"
 
+  provisioner "local-exec" {
+    command = <<EOF
+(
+      echo "Host *"
+      echo "  User      ${var.user}"
+      echo "  StrictHostKeyChecking   no"
+      echo "  IdentityFile ${var.key_file}"
+      echo "  UserKnownHostsFile /dev/null"
+      echo " "
+      echo "Host bastion"
+      echo "  HostName ${var.bastion_host_ip}"
+ ) | tee base-ssh-config
+EOF
+  }
+  provisioner "file" {
+    source      = "base-ssh-config"
+    destination = "/home/${var.user}/.ssh/config"
+  }
+  provisioner "remote-exec" {
+    inline = [
+      "chmod 600 /home/${var.user}/.ssh/config",
+    ]
+  }
+
   provisioner "file" {
     source      = "${var.bastion_key_file}"
     destination = "/home/${var.user}/.ssh/"
@@ -117,6 +141,13 @@ resource "openstack_compute_instance_v2" "base" {
       "/bin/rm -f /home/${var.user}/install-consul.sh",
     ]
   }
+}
+
+resource "null_resource" "epilogue" {
+
+  depends_on = [
+   "openstack_compute_instance_v2.base"
+  ]
 
   provisioner "local-exec" {
     command = <<EOF
@@ -134,4 +165,5 @@ resource "openstack_compute_instance_v2" "base" {
 ) | tee ssh-config
 EOF
   }
+
 }
