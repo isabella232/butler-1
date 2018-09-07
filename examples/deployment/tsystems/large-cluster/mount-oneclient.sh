@@ -19,6 +19,9 @@ vsn="oneclient-18.02.0.rc8-1.el7.centos.x86_64"
 #  vsn="18.02.0.rc8"
 #fi
 #vsn="oneclient-${vsn}"
+#
+# Or look it up on http://packages.onedata.org/yum/centos/7x/x86_64/ and
+# 'yum install' via the URL :-)
 
 if [ ! -f /usr/bin/oneclient ]; then
   curl -sS -o oneclient.sh http://get.onedata.org/oneclient.sh
@@ -37,10 +40,11 @@ do
       /data --force-direct-io \
       -o allow_other \
       --force-fullblock-read \
-      --rndrd-prefetch-cluster-window=31457280 \
+      --rndrd-prefetch-cluster-window=20971520 \
       --rndrd-prefetch-cluster-block-threshold=5 \
-      --provider-timeout=7200 \
-      -v 1
+      --prefetch-mode=sync \
+      --disable-read-events \
+      --io-trace-log
   fi
   if [ -d /data/OTC-EMBL ]; then
     exit 0
